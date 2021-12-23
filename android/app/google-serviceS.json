@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "97217947736",
+    "project_id": "tb-family-care-model",
+    "storage_bucket": "tb-family-care-model.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97217947736:android:f66b4a97b7f4143665022d",
+        "android_client_info": {
+          "package_name": "com.tbfamilycaremodel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97217947736-5jkmrpnci41lra1qjsme17dkt4f842uo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjgJwaP7ypFbFarDneM13xIeEYksmqnTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97217947736-5jkmrpnci41lra1qjsme17dkt4f842uo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "97217947736-8rgfom1nk3si457chjkccqgs50a89c45.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.NooraHealth.TbFamilyCareModel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
