@@ -1,21 +1,23 @@
 import {useFormikContext} from 'formik';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {Colors} from '../../Theme';
 
 import AppButton from '../AppButton';
 
 export default function SubmitButton({
   title = 'submit',
+  bg,
   textColor,
   ...otherProps
 }) {
   const {handleSubmit} = useFormikContext();
   return (
-    <View style={styles.container}>
+    <View style={(styles.container, {backgroundColor: bg})}>
       <AppButton
-        text={title}
+        title={title}
         onPress={handleSubmit}
-        style={[styles.textStyle, {color: textColor}]}
+        style={{color: textColor}}
         {...otherProps}
       />
     </View>
@@ -24,9 +26,6 @@ export default function SubmitButton({
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
-  },
-  textStyle: {
-    fontFamily: 'Assistant-SemiBold',
-    textTransform: 'uppercase',
+    width: '100%',
   },
 });

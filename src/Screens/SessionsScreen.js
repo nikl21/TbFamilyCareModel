@@ -1,9 +1,41 @@
-import React from 'react';
-import {StyleSheet, Image, View} from 'react-native';
-import {AppText} from '../Components';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Image,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import {AppButton, AppText} from '../Components';
+import ListSession from '../Components/ListSession';
 import {Colors, Images} from '../Theme';
 
-export default function SessionsScreen() {
+export default function SessionsScreen({navigation}) {
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [patientData, setPatientData] = useState([]);
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Patients')
+      .orderBy('date', 'desc')
+      .onSnapshot(querySnapshot => {
+        const patients = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          patients.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setPatientData(patients);
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -16,22 +48,57 @@ export default function SessionsScreen() {
           <View style={styles.lineStyle} />
           <View style={styles.impactContainer}>
             <View style={styles.impactContainer}>
-              <AppText style={styles.impactTitle}>8</AppText>
+              <AppText style={styles.impactTitle}>{patientData.length}</AppText>
               <AppText style={styles.impactSubtitle}>Patients Impacted</AppText>
             </View>
           </View>
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.noImageContainer}>
-          <Image source={Images.noClass} style={styles.noClass} />
-        </View>
+        {loading ? (
+          <ActivityIndicator />
+        ) : patientData && patientData.length === 0 ? (
+          <View style={styles.noImageContainer}>
+            <Image source={Images.noClass} style={styles.noClass} />
+          </View>
+        ) : (
+          <FlatList
+            data={patientData}
+            keyExtractor={message => message.key.toString()}
+            renderItem={({item, index}) => {
+              return (
+                <ListSession
+                  name={item.name}
+                  date={item.date.toDate()}
+                  index={index}
+                  onPress={() => navigation.navigate('EditSessions', item)}
+                />
+              );
+            }}
+          />
+        )}
+      </View>
+      <View style={styles.buttonContainer}>
+        <AppButton
+          style={styles.button}
+          title={'Add Patient'}
+          bg={Colors.appColor}
+          onPress={() => navigation.navigate('Add Patient')}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  button: {
+    color: Colors.white,
+  },
+  buttonContainer: {
+    paddingHorizontal: 30,
+    paddingBottom: 30,
+    paddingTop: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
@@ -55,6 +122,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     backgroundColor: Colors.backgroundColor,
     flex: 0.7,
+    paddingTop: 10,
   },
   impactContainer: {
     flexDirection: 'row',

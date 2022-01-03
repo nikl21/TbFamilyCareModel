@@ -18,8 +18,10 @@ export default function AppDatePicker({setOpen, date, ...props}) {
       <AppText>Date</AppText>
       <TouchableOpacity style={styles.button} onPress={() => setOpen(true)}>
         <View style={styles.container}>
-          <AppText>{formatDate(date)}</AppText>
-          <DatePicker date={date} {...props} mode="date" />
+          <AppText style={styles.text} onPress={() => setOpen(false)}>
+            {formatDate(date)}
+          </AppText>
+          <DatePicker date={date} {...props} mode="date" maximumDate={date} />
         </View>
       </TouchableOpacity>
     </>
@@ -27,6 +29,9 @@ export default function AppDatePicker({setOpen, date, ...props}) {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+  },
   container: {
     backgroundColor: Colors.backgroundColor,
     justifyContent: 'space-between',

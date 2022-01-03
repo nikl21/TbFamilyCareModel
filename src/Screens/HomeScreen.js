@@ -3,7 +3,7 @@ import {View, StyleSheet, Image} from 'react-native';
 import {AppButton, AppText} from '../Components';
 import {Colors, Images} from '../Theme';
 
-export default function GetStartedScreen() {
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.topBanner}>

@@ -1,16 +1,32 @@
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
-import * as Yup from 'yup';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
 import {Colors, Images} from '../Theme';
-import {SubmitButton, AppForm, AppFormField} from '../Components';
+import {
+  SubmitButton,
+  AppForm,
+  AppFormField,
+  AppButton,
+  AppText,
+} from '../Components';
 import {SignUpSchema} from '../Services/formData';
 
-export default function SignUp() {
+export default function SignUp({navigation}) {
   return (
     <View style={styles.container}>
       <AppForm
-        initialValues={{username: '', password: '', confirmPassword: ''}}
+        initialValues={{
+          username: '',
+          password: '',
+          passwordConfirmation: '',
+          choName: '',
+        }}
         validationSchema={SignUpSchema}
         onSubmit={values => {
           console.log(values);
@@ -23,6 +39,7 @@ export default function SignUp() {
               placeholder="Username"
               autoCapitalize="none"
               autoCorrect={false}
+              style={styles.input}
             />
             <AppFormField
               name="password"
@@ -30,18 +47,40 @@ export default function SignUp() {
               autoCapitalize="none"
               autoCorrect={false}
               type="password"
+              style={styles.input}
             />
             <AppFormField
-              name="confirmPassword"
+              name="passwordConfirmation"
               placeholder="Confirm Password"
               autoCapitalize="none"
               autoCorrect={false}
               type="password"
+              style={styles.input}
+            />
+            <AppFormField
+              name="choName"
+              placeholder="CHO Name"
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.input}
             />
           </View>
-        </View>
-        <View style={styles.bottomBanner}>
-          <SubmitButton title="LOGIN" />
+          <View style={styles.box}>
+            <SubmitButton
+              title="SIGN UP"
+              bg={Colors.appColor}
+              textColor={Colors.white}
+            />
+          </View>
+          <View style={styles.login}>
+            <AppText>Go back to</AppText>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <AppText style={styles.loginButton}> Login</AppText>
+            </TouchableOpacity>
+          </View>
         </View>
       </AppForm>
     </View>
@@ -49,16 +88,30 @@ export default function SignUp() {
 }
 
 const styles = StyleSheet.create({
+  box: {
+    width: '100%',
+    padding: 30,
+  },
   bottomBanner: {
     backgroundColor: Colors.appColor,
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
   },
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
+  },
+  login: {
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  loginButton: {
+    color: Colors.appColor,
   },
   logo: {
     height: 200,
@@ -72,6 +125,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
     justifyContent: 'center',
     // paddingHorizontal: 30,
+  },
+  input: {
+    borderColor: Colors.appColor,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 2,
   },
   inputContainer: {
     marginHorizontal: 50,

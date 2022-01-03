@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Colors, WP} from '../Theme';
+import {Colors} from '../Theme';
 import AppText from './AppText';
 
-export default function AppButton({text, onPress, style, bg}) {
+export default function AppButton({title, onPress, style, bg}) {
   return (
     <TouchableOpacity
       style={[styles.buttonContainer, {backgroundColor: bg}]}
       onPress={onPress}>
-      <AppText style={[styles.text, style]}>{text}</AppText>
+      <AppText style={[styles.text, style]}>{title}</AppText>
     </TouchableOpacity>
   );
 }
@@ -22,5 +22,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textTransform: 'uppercase',
   },
-  text: {color: Colors.appColor, fontFamily: 'Assistant-SemiBold'},
+  text: {
+    color: Colors.appColor,
+    fontFamily: 'Assistant-SemiBold',
+    textTransform: 'uppercase',
+  },
 });

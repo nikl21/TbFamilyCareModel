@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 import {AppForm, AppFormField, AppText, SubmitButton} from '../Components';
 import AppDatePicker from '../Components/AppDatePicker';
@@ -12,11 +13,12 @@ import {
 } from '../Services/formData';
 import {Colors} from '../Theme';
 
-export default function AddPatientScreen() {
+export default function AddPatientScreen({navigation}) {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const scrollRef = useRef();
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollRef}>
       <View style={styles.form}>
         <AppText style={styles.text}>patient information</AppText>
         <AppDatePicker
@@ -49,7 +51,19 @@ export default function AddPatientScreen() {
             c_phone: '',
           }}
           validationSchema={PatientFormSchema}
-          onSubmit={values => {
+          onSubmit={(values, {resetForm}) => {
+            firestore()
+              .collection('Patients')
+              .add(values)
+              .then(() => {
+                resetForm();
+                console.log('User added!');
+                navigation.navigate('Sessions');
+                scrollRef.current?.scrollTo({
+                  y: 0,
+                  animated: true,
+                });
+              });
             console.log(values);
           }}>
           <View style={styles.inputContainer}>
@@ -63,6 +77,14 @@ export default function AddPatientScreen() {
               name="age"
               label="age"
               maxLength={2}
+              keyboardType={'numeric'}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <AppFormField
+              name="phone"
+              label="Phone Number"
+              maxLength={10}
               keyboardType={'numeric'}
               autoCapitalize="none"
               autoCorrect={false}

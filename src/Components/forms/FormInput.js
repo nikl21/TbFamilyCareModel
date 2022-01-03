@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Colors} from '../../Theme';
 import AppText from '../AppText';
@@ -9,7 +9,7 @@ export default function FormInput({icon, type, style, label, ...otherProps}) {
   return (
     <View style={styles.container}>
       {label && <AppText style={styles.label}>{label}</AppText>}
-      <View style={{}}>
+      <View style={[styles.inputContainer, style]}>
         {icon && (
           <Icon
             name={icon}
@@ -19,7 +19,6 @@ export default function FormInput({icon, type, style, label, ...otherProps}) {
           />
         )}
         <TextInput
-          style={[style]}
           placeholderTextColor={Colors.gray}
           {...otherProps}
           secureTextEntry={
@@ -43,14 +42,14 @@ const styles = StyleSheet.create({
   label: {
     textTransform: 'capitalize',
   },
-  container: {
+  inputContainer: {
     backgroundColor: Colors.backgroundColor,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 0,
     marginVertical: 10,
     borderWidth: 1,
     borderColor: Colors.containerBorder,
