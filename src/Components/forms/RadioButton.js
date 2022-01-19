@@ -40,7 +40,7 @@ export default function AppRadioButton({name, label, radio_props}) {
               labelHorizontal={true}
               onPress={() => {}}
               labelStyle={styles.labelStyle}
-              labelWrapStyle={{}}
+              labelWrapStyle={styles.labelWrapStyle}
             />
           </RadioButton>
         ))}
@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   labelStyle: {
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.text,
     fontFamily: 'Assistant-Regular',
     textTransform: 'capitalize',
-    paddingRight: 10,
   },
   radioButton: {
     flex: 1,
   },
+  labelWrapStyle: {},
 });

@@ -131,7 +131,9 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+     dexOptions {
+       javaMaxHeapSize "3g"
+    }
     defaultConfig {
         applicationId "com.tbfamilycaremodel"
         minSdkVersion rootProject.ext.minSdkVersion

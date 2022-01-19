@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {AppButton, AppText} from '../Components';
+import routes from '../Navigation/routes';
 import {Colors, Images} from '../Theme';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.topBanner}>
@@ -19,7 +20,11 @@ export default function HomeScreen() {
               What would you like to do today?
             </AppText>
           </View>
-          <AppButton text={'Get Started'} />
+          <AppButton
+            title={'Add patient info'}
+            bg={Colors.white}
+            onPress={() => navigation.jumpTo(routes.ADD_PATIENT)}
+          />
         </View>
       </View>
     </View>
@@ -30,6 +35,9 @@ const styles = StyleSheet.create({
   bottomBanner: {
     backgroundColor: Colors.appColor,
     flex: 0.5,
+  },
+  buttonText: {
+    color: Colors.appColor,
   },
   bottomText: {
     color: Colors.white,

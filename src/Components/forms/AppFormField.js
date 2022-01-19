@@ -11,7 +11,7 @@ export default function AppFormField({name, ...otherProps}) {
     <>
       <FormInput
         onChangeText={handleChange(name)}
-        value={values[name].toString()}
+        value={values[name] && values[name].toString()}
         onBlur={() => {
           setFieldTouched(name);
         }}

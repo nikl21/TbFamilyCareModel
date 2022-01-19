@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Image,
@@ -7,34 +7,49 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {AppButton, AppText} from '../Components';
+import {AppButton, AppInput, AppText} from '../Components';
 import ListSession from '../Components/ListSession';
 import {Colors, Images} from '../Theme';
+import {AppContext} from '../Components/AppContext';
 
 export default function SessionsScreen({navigation}) {
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [patientData, setPatientData] = useState([]);
+  const [filteredData, setFilteredData] = useState('');
+
+  const {patientData, setPatientData} = useContext(AppContext);
+  console.log(patientData);
+  function onChangeText(text) {
+    if (text.trim().length !== 0) {
+      const filtered = patientData.filter(
+        item => item.name.toLowerCase().indexOf(text.toLowerCase()) !== -1,
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(patientData);
+    }
+  }
   useEffect(() => {
     const subscriber = firestore()
       .collection('Patients')
       .orderBy('date', 'desc')
-      .onSnapshot(querySnapshot => {
-        const patients = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          patients.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
+      // .where('facility', '==', 'guna')
+      .onSnapshot(
+        querySnapshot => {
+          const patients = [];
+          querySnapshot.forEach(documentSnapshot => {
+            patients.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
           });
-        });
-
-        setPatientData(patients);
-        setLoading(false);
-      });
+          setPatientData(patients);
+          setFilteredData(patients);
+        },
+        err => console.log(err),
+      );
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, []);
+  }, [setPatientData]);
 
   return (
     <View style={styles.container}>
@@ -48,34 +63,41 @@ export default function SessionsScreen({navigation}) {
           <View style={styles.lineStyle} />
           <View style={styles.impactContainer}>
             <View style={styles.impactContainer}>
-              <AppText style={styles.impactTitle}>{patientData.length}</AppText>
+              <AppText style={styles.impactTitle}>
+                {patientData && patientData.length}
+              </AppText>
               <AppText style={styles.impactSubtitle}>Patients Impacted</AppText>
             </View>
           </View>
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        {loading ? (
+        {!patientData ? (
           <ActivityIndicator />
         ) : patientData && patientData.length === 0 ? (
           <View style={styles.noImageContainer}>
             <Image source={Images.noClass} style={styles.noClass} />
           </View>
         ) : (
-          <FlatList
-            data={patientData}
-            keyExtractor={message => message.key.toString()}
-            renderItem={({item, index}) => {
-              return (
-                <ListSession
-                  name={item.name}
-                  date={item.date.toDate()}
-                  index={index}
-                  onPress={() => navigation.navigate('EditSessions', item)}
-                />
-              );
-            }}
-          />
+          <View>
+            <View style={styles.searchContainer}>
+              <AppInput label="Search Patient" onChangeText={onChangeText} />
+            </View>
+            <FlatList
+              data={filteredData}
+              keyExtractor={message => message.key.toString()}
+              renderItem={({item, index}) => {
+                return (
+                  <ListSession
+                    name={item.name}
+                    date={item.date.toDate()}
+                    index={index}
+                    onPress={() => navigation.navigate('EditSessions', item)}
+                  />
+                );
+              }}
+            />
+          </View>
         )}
       </View>
       <View style={styles.buttonContainer}>
@@ -141,7 +163,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Assistant-Bold',
     fontSize: 32,
   },
-
+  searchContainer: {
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
   title: {
     // marginTop: 10,
     color: Colors.white,

@@ -8,11 +8,15 @@ import AddPatientScreen from '../Screens/AddPatientScreen';
 import {Colors} from '../Theme';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import SessionNavigator from './SessionNavigator';
+import routes from './routes';
+import CustomDrawerContent from '../Components/DrawerContent';
+import ProfileNavigator from './ProfileNavigator';
 const Drawer = createDrawerNavigator();
 
 const AppNavigator = () => {
   return (
     <Drawer.Navigator
+      drawerContent={props => <CustomDrawerContent {...props} />}
       initialRouteName="Home"
       screen={HomeScreen}
       screenOptions={({navigation}) => ({
@@ -48,12 +52,13 @@ const AppNavigator = () => {
           // backgroundColor: '#c6cbef',
           width: 240,
         },
+        drawerItemStyle: styles.item,
         drawerPosition: 'right',
       })}>
       <Drawer.Screen
         name="Home"
         component={HomeScreen}
-        options={({navigation, route}) => ({
+        options={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.backgroundColor,
             elevation: 0,
@@ -78,9 +83,43 @@ const AppNavigator = () => {
           ),
         })}
       />
+
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={({route, navigation}) => ({
+          headerTitle: getHeaderTitle(route),
+          headerTitleStyle: {
+            fontFamily: 'Assistant-Bold',
+            fontSize: 24,
+            color: Colors.white,
+          },
+          headerStyle: {
+            backgroundColor: Colors.secondaryColor,
+          },
+          headerLeft: () => {
+            if (
+              getHeaderTitle(route) === 'Edit Patient' ||
+              getHeaderTitle(route) === 'Edit Profile'
+            ) {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(routes.PROFILE_SCREEN)}>
+                  <Icon
+                    name="arrow-left"
+                    size={20}
+                    color={Colors.white}
+                    style={styles.iconLeft}
+                  />
+                </TouchableOpacity>
+              );
+            }
+          },
+        })}
+      />
       <Drawer.Screen name="Add Patient" component={AddPatientScreen} />
       <Drawer.Screen
-        name="Sessions"
+        name="Previous Patients"
         component={SessionNavigator}
         options={({route, navigation}) => ({
           headerTitle: getHeaderTitle(route),
@@ -96,7 +135,7 @@ const AppNavigator = () => {
             if (getHeaderTitle(route) === 'Edit Patient') {
               return (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('SessionLists')}>
+                  onPress={() => navigation.navigate(routes.SESSION_LISTS)}>
                   <Icon
                     name="arrow-left"
                     size={20}
@@ -117,23 +156,31 @@ function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
   // This can happen during if there hasn't been any navigation inside the screen
   // In our case, it's "Feed" as that's the first screen inside the navigator
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Sessions';
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Profile';
 
   switch (routeName) {
     case 'Sessions':
       return '';
     case 'EditSessions':
       return 'Edit Patient';
+    case 'ProfileScreen':
+      return 'ProfileScreen';
+    case 'EditProfile':
+      return 'Edit Profile';
   }
 }
 
 const styles = StyleSheet.create({
   icon: {
     marginRight: 30,
-    marginTop: 10,
+    // marginTop: 10,
   },
   iconLeft: {
     marginLeft: 30,
+  },
+  item: {
+    borderBottomWidth: 1,
+    borderColor: Colors.appColor,
   },
 });
 export default AppNavigator;

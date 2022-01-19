@@ -17,7 +17,11 @@ export default function GetStartedScreen() {
           <View style={styles.bottomTextContainer}>
             <AppText style={styles.bottomText}>Let's get started.</AppText>
           </View>
-          <AppButton text={'Get Started'} />
+          <AppButton
+            title={'Get Started'}
+            bg={Colors.white}
+            style={styles.button}
+          />
         </View>
       </View>
     </View>
@@ -70,5 +74,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginHorizontal: 50,
+  },
+  button: {
+    color: Colors.appColor,
   },
 });

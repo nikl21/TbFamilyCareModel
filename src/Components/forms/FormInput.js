@@ -9,31 +9,45 @@ export default function FormInput({icon, type, style, label, ...otherProps}) {
   return (
     <View style={styles.container}>
       {label && <AppText style={styles.label}>{label}</AppText>}
-      <View style={[styles.inputContainer, style]}>
-        {icon && (
-          <Icon
-            name={icon}
-            size={30}
-            color={Colors.appColor}
-            style={styles.icon}
+      {icon && type === 'password' ? (
+        <View style={[styles.inputContainer, style]}>
+          {icon && (
+            <Icon
+              name={icon}
+              size={30}
+              color={Colors.appColor}
+              style={styles.icon}
+            />
+          )}
+          <TextInput
+            placeholderTextColor={Colors.gray}
+            {...otherProps}
+            secureTextEntry={
+              type === 'password' ? (hidePass ? true : false) : false
+            }
+            style={styles.text}
           />
-        )}
-        <TextInput
-          placeholderTextColor={Colors.gray}
-          {...otherProps}
-          secureTextEntry={
-            type === 'password' ? (hidePass ? true : false) : false
-          }
-        />
-        {type === 'password' && (
-          <Icon
-            name={hidePass ? 'eye-slash' : 'eye'}
-            size={15}
-            color="grey"
-            onPress={() => setHidePass(!hidePass)}
+          {type === 'password' && (
+            <Icon
+              name={hidePass ? 'eye-slash' : 'eye'}
+              size={15}
+              color="grey"
+              onPress={() => setHidePass(!hidePass)}
+            />
+          )}
+        </View>
+      ) : (
+        <View>
+          <TextInput
+            style={[styles.inputContainer, style]}
+            placeholderTextColor={Colors.gray}
+            {...otherProps}
+            secureTextEntry={
+              type === 'password' ? (hidePass ? true : false) : false
+            }
           />
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -49,12 +63,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingHorizontal: 15,
-    paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 8,
     marginVertical: 10,
     borderWidth: 1,
     borderColor: Colors.containerBorder,
   },
   icon: {
     marginRight: 10,
+  },
+  text: {
+    color: Colors.text,
   },
 });
