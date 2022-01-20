@@ -20,11 +20,13 @@ export default function HomeScreen({navigation}) {
               What would you like to do today?
             </AppText>
           </View>
-          <AppButton
-            title={'Add patient info'}
-            bg={Colors.white}
-            onPress={() => navigation.jumpTo(routes.ADD_PATIENT)}
-          />
+          <View style={styles.buttonContainer}>
+            <AppButton
+              title={'Add patient info'}
+              bg={Colors.white}
+              onPress={() => navigation.jumpTo(routes.ADD_PATIENT)}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -44,13 +46,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Assistant-Bold',
     fontSize: 28,
   },
+  buttonContainer: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+  },
   bottomSubText: {
     color: Colors.white,
     fontFamily: 'Assistant-Regular',
     fontSize: 24,
   },
   bottomContainer: {
-    paddingHorizontal: 30,
     paddingVertical: 40,
     flex: 1,
     flexDirection: 'column',

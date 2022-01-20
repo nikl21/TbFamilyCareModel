@@ -16,7 +16,6 @@ export default function SessionsScreen({navigation}) {
   const [filteredData, setFilteredData] = useState('');
 
   const {patientData, setPatientData} = useContext(AppContext);
-  console.log(patientData);
   function onChangeText(text) {
     if (text.trim().length !== 0) {
       const filtered = patientData.filter(
@@ -86,6 +85,7 @@ export default function SessionsScreen({navigation}) {
             <FlatList
               data={filteredData}
               keyExtractor={message => message.key.toString()}
+              ListFooterComponent={<View style={{height: 80}} />}
               renderItem={({item, index}) => {
                 return (
                   <ListSession

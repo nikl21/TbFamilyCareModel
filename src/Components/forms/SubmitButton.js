@@ -25,7 +25,6 @@ export default function SubmitButton({
 }
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 20,
     width: '100%',
   },
 });

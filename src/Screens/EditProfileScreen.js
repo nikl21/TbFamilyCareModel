@@ -1,11 +1,8 @@
 import React, {useRef, useState} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-
 import {Colors} from '../Theme';
-import PatientForm from '../Components/forms/PatientForm';
 import {AppForm, AppFormField, AppText, SubmitButton} from '../Components';
-import {ProfileSchema, SignUpSchema} from '../Services/formData';
+import {ProfileSchema} from '../Services/formData';
 
 export default function EditProfileScreen({navigation}) {
   const scrollRef = useRef();

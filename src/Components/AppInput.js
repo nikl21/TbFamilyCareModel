@@ -40,7 +40,7 @@ export default function AppInput({icon, label, style, type, ...otherProps}) {
       ) : (
         <View>
           <TextInput
-            style={styles.inputContainer}
+            style={[styles.inputContainer, style]}
             placeholderTextColor={Colors.gray}
             {...otherProps}
             secureTextEntry={

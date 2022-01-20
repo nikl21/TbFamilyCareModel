@@ -14,7 +14,6 @@ function formatDate(date) {
 
 export default function AppDatePicker({
   setOpen,
-  name,
   date,
   label = 'Date',
   ...props

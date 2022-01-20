@@ -1,10 +1,9 @@
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import {
   caregiverOptions,
-  caregiverTestOptions,
   categoryOptions,
   cupOptions,
   dmcOptions,
@@ -17,9 +16,11 @@ import {
   trackerWeekOptions,
 } from '../../Services/formData';
 import {Colors} from '../../Theme';
+import AppButton from '../AppButton';
 import AppDatePicker from '../AppDatePicker';
 import AppText from '../AppText';
 import AppFormField from './AppFormField';
+import NewSessionForm from './NewSessionForm';
 import AppRadioButton from './RadioButton';
 import SubmitButton from './SubmitButton';
 
@@ -27,6 +28,16 @@ export default function PatientForm({onSubmit, initialValues}) {
   const [open, setOpen] = useState(false);
   const [openD, setOpenD] = useState(false);
   const [openT, setOpenT] = useState(false);
+
+  function addNewSession(values, setFieldValue) {
+    const sessionArray = values.new_sessions || [];
+    sessionArray.push({
+      session_number: sessionArray.length + 2,
+      date_of_visit: new Date(),
+      notes: '',
+    });
+    setFieldValue('new_sessions', sessionArray);
+  }
 
   return (
     <>
@@ -58,7 +69,9 @@ export default function PatientForm({onSubmit, initialValues}) {
                 c_category: '',
                 c_tested_negative: '',
                 c_gender: '',
+                c_relation: '',
                 c_phone: '',
+                new_sessions: [],
               }
         }
         validationSchema={PatientFormSchema}
@@ -68,7 +81,6 @@ export default function PatientForm({onSubmit, initialValues}) {
             <AppText style={styles.text}>patient information</AppText>
             <AppDatePicker
               modal
-              name="date"
               setOpen={setOpen}
               open={open}
               date={
@@ -168,7 +180,6 @@ export default function PatientForm({onSubmit, initialValues}) {
                   <AppDatePicker
                     modal
                     label="Date of Treatment"
-                    name="date_of_treatment"
                     setOpen={setOpenT}
                     open={openT}
                     date={
@@ -256,11 +267,12 @@ export default function PatientForm({onSubmit, initialValues}) {
                 radio_props={genderOptions}
                 name="c_gender"
               />
-              {/* <AppRadioButton
+              <AppRadioButton
+                isHorizontal={false}
                 label={'Relation to Patient'}
                 radio_props={relationOptions}
-                name="c_gender"
-              /> */}
+                name="c_relation"
+              />
               <AppFormField
                 name="c_phone"
                 label="Phone Number"
@@ -270,6 +282,26 @@ export default function PatientForm({onSubmit, initialValues}) {
                 autoCorrect={false}
               />
             </View>
+            {initialValues && (
+              <View style={styles.AddSessionContainer}>
+                {values.new_sessions &&
+                  values.new_sessions.map((session, index) => (
+                    <View key={session.session_number}>
+                      <NewSessionForm
+                        session_number={session.session_number}
+                        index={index}
+                      />
+                    </View>
+                  ))}
+                <AppButton
+                  title="Add New Session"
+                  bg={Colors.appColor}
+                  style={styles.addSessionButton}
+                  onPress={() => addNewSession(values, setFieldValue)}
+                />
+              </View>
+            )}
+
             <SubmitButton bg={Colors.appColor} textColor={Colors.white} />
           </>
         )}
@@ -279,6 +311,13 @@ export default function PatientForm({onSubmit, initialValues}) {
 }
 
 const styles = StyleSheet.create({
+  AddSessionContainer: {
+    flex: 1,
+    marginBottom: 60,
+  },
+  addSessionButton: {
+    color: Colors.white,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,

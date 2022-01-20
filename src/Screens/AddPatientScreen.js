@@ -19,7 +19,7 @@ export default function AddPatientScreen({navigation}) {
               .then(() => {
                 resetForm();
                 console.log('User added!');
-                navigation.navigate(routes.SESSION_LISTS);
+                navigation.navigate(routes.SESSIONS);
                 scrollRef.current?.scrollTo({
                   y: 0,
                   animated: true,
