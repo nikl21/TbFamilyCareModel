@@ -1,4 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   StyleSheet,
   Image,
@@ -14,6 +16,7 @@ import {AppContext} from '../Components/AppContext';
 
 export default function SessionsScreen({navigation}) {
   const [filteredData, setFilteredData] = useState('');
+  const [username, setUsername] = useState(false);
 
   const {patientData, setPatientData} = useContext(AppContext);
   function onChangeText(text) {
@@ -26,11 +29,24 @@ export default function SessionsScreen({navigation}) {
       setFilteredData(patientData);
     }
   }
+
+  useEffect(() => {
+    const getUsername = async () => {
+      try {
+        await AsyncStorage.getItem('username').then(value =>
+          setUsername(value),
+        );
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    getUsername();
+  }, []);
   useEffect(() => {
     const subscriber = firestore()
       .collection('Patients')
       .orderBy('date', 'desc')
-      // .where('facility', '==', 'guna')
+      .where('user', '==', username ? username : '')
       .onSnapshot(
         querySnapshot => {
           const patients = [];
@@ -48,7 +64,7 @@ export default function SessionsScreen({navigation}) {
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [setPatientData]);
+  }, [username, setPatientData]);
 
   return (
     <View style={styles.container}>
@@ -80,12 +96,17 @@ export default function SessionsScreen({navigation}) {
         ) : (
           <View>
             <View style={styles.searchContainer}>
-              <AppInput label="Search Patient" onChangeText={onChangeText} />
+              <AppInput
+                // label="Search Patient"
+                placeholder="Search Patient"
+                onChangeText={onChangeText}
+                search={true}
+              />
             </View>
             <FlatList
               data={filteredData}
               keyExtractor={message => message.key.toString()}
-              ListFooterComponent={<View style={{height: 80}} />}
+              ListFooterComponent={<View style={{height: 90}} />}
               renderItem={({item, index}) => {
                 return (
                   <ListSession

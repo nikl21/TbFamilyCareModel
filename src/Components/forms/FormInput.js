@@ -9,7 +9,7 @@ export default function FormInput({icon, type, style, label, ...otherProps}) {
   return (
     <View style={styles.container}>
       {label && <AppText style={styles.label}>{label}</AppText>}
-      {icon && type === 'password' ? (
+      {icon || type === 'password' ? (
         <View style={[styles.inputContainer, style]}>
           {icon && (
             <Icon
@@ -67,11 +67,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderWidth: 1,
     borderColor: Colors.containerBorder,
+    color: Colors.text,
   },
   icon: {
     marginRight: 10,
   },
   text: {
     color: Colors.text,
+    paddingVertical: 0,
   },
 });

@@ -13,16 +13,31 @@ export const LoginSchema = Yup.object().shape({
     .label('Password'),
 });
 export const SignUpSchema = Yup.object().shape({
-  password: Yup.string()
-    .min(2, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required')
-    .label('Username'),
   username: Yup.string()
     .min(2, 'Too Short!')
     .max(20, 'Too Long!')
     .required('Required')
+    .label('Username'),
+  password: Yup.string()
+    .min(2, 'Too Short!')
+    .max(20, 'Too Long!')
+    .required('Required')
     .label('Password'),
+  passwordConfirmation: Yup.string()
+    .min(2, 'Too Short!')
+    .max(20, 'Too Long!')
+    .required('Required')
+    .label('Password'),
+  facility_name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(20, 'Too Long!')
+    .required('Required')
+    .label('Facility Name'),
+  name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(30, 'Too Long!')
+    .required('Required')
+    .label('Cho Name'),
 });
 
 export const ProfileSchema = Yup.object().shape({
@@ -31,7 +46,13 @@ export const ProfileSchema = Yup.object().shape({
 });
 export const PatientFormSchema = Yup.object().shape({
   name: Yup.string().required(),
-  age: Yup.number().required().positive().integer(),
+  age: Yup.number().required().integer().max(120).min(0).label('Age'),
+
+  phone: Yup.string()
+    .required()
+    .test('len', 'Must be exactly 10 characters', val =>
+      val ? val.length === 10 : true,
+    ),
 });
 
 export var categoryOptions = [
@@ -43,9 +64,9 @@ export var caregiverOptions = [
   {label: 'Confirmed ', value: 1},
   {label: 'Negative', value: 2},
 ];
-export var caregiverTestOptions = [
-  {label: 'Tested Negative', value: 0},
-  {label: 'Did not test negative', value: 1},
+export var testOptions = [
+  {label: 'Tested Positive', value: 0},
+  {label: 'Tested Negative', value: 1},
 ];
 export var genderOptions = [
   {label: 'male', value: 0},
@@ -81,6 +102,10 @@ export var trackerOptions = [
   {label: 'Not Received', value: 1},
 ];
 export var trackerWeekOptions = [
+  {label: 'Yes', value: 0},
+  {label: 'No', value: 1},
+];
+export var npyOptions = [
   {label: 'Yes', value: 0},
   {label: 'No', value: 1},
 ];

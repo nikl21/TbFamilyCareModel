@@ -1,10 +1,11 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import {Colors} from '../Theme';
 import PatientForm from '../Components/forms/PatientForm';
 import routes from '../Navigation/routes';
+import NetInfo from '@react-native-community/netinfo';
 
 export default function AddPatientScreen({navigation}) {
   const scrollRef = useRef();
@@ -13,6 +14,7 @@ export default function AddPatientScreen({navigation}) {
       <View style={styles.form}>
         <PatientForm
           onSubmit={(values, {resetForm}) => {
+            console.log(values);
             firestore()
               .collection('Patients')
               .add(values)
@@ -26,6 +28,11 @@ export default function AddPatientScreen({navigation}) {
                 });
               });
             console.log(values);
+            NetInfo.fetch().then(state => {
+              if (!state.isConnected) {
+                navigation.navigate(routes.SESSIONS);
+              }
+            });
           }}
         />
       </View>
@@ -37,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    padding: 30,
+    padding: 20,
   },
   text: {
     textTransform: 'uppercase',

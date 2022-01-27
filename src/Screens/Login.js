@@ -1,18 +1,50 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 
 import {Colors, Images} from '../Theme';
 import {SubmitButton, AppForm, AppFormField, AppText} from '../Components';
 import {LoginSchema} from '../Services/formData';
+import {axiosApi} from '../Services/api/axiosApi';
+import {AppContext} from '../Components/AppContext';
+import AppStatus from '../Components/forms/AppStatus';
 
 export default function Login({navigation}) {
+  const {isLoggedIn, setLoggedIn} = useContext(AppContext);
+
+  const storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   return (
     <View style={styles.container}>
       <AppForm
         initialValues={{username: '', password: ''}}
         validationSchema={LoginSchema}
-        onSubmit={values => {
-          console.log(values);
+        onSubmit={(values, {setStatus, status}) => {
+          axiosApi
+            .post('/oauth/token.json', {
+              ...values,
+              grant_type: 'password',
+              client_id: 'xVMtDXOMfuS8kO2ut67MqOJx40YFN85VXTZpSmjKIIY',
+              client_secret: 'FTZA1X0C00Xu4jRRpe6SP3etliqJoRPlo-ACAXIBIM4',
+            })
+            .then(response => {
+              console.log(response.data);
+              storeData('token', response.data.access_token);
+              storeData('username', values.username);
+              setStatus(null);
+              setLoggedIn(!isLoggedIn);
+            })
+            .catch(error => {
+              console.log(error);
+              setStatus('Invalid credentials');
+              // console.log(status);
+            });
         }}>
         <View style={styles.topBanner}>
           <Image source={Images.logo} style={styles.logo} />
@@ -32,6 +64,7 @@ export default function Login({navigation}) {
               type="password"
               style={styles.input}
             />
+            <AppStatus />
             <View style={styles.signUp}>
               <AppText>Don't have an account?</AppText>
               <TouchableOpacity

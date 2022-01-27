@@ -17,6 +17,7 @@
 		28091A201E124679B4F3965D /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32F3F4D7C08F41D091DE0767 /* Feather.ttf */; };
 		291036A868B78FBEF58354A5 /* libPods-TbFamilyCareModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501560FAE4F3D1F04D9DB93C /* libPods-TbFamilyCareModel.a */; };
 		310B090B274BBE8900714995 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 310B090A274BBE8900714995 /* GoogleService-Info.plist */; };
+		3185F824279ACBB1007C4638 /* Logo_screen-02@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3185F823279ACBB0007C4638 /* Logo_screen-02@1x.png */; };
 		31FD12982775BEAC0043BFEB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31FD12972775BEAC0043BFEB /* Launch Screen.storyboard */; };
 		3947FDF4B4FC4315A57D5DD9 /* Assistant-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6EA5BD7034BD41C499AB2913 /* Assistant-Light.otf */; };
 		49083D66277B422EAD4D385B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D1FF9ECDA3E4B2BA0FF6DC7 /* Zocial.ttf */; };
@@ -62,6 +63,7 @@
 		1941E431781F43648C1C53DF /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		310B090A274BBE8900714995 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		317F257027980EB7001A6CD8 /* TbFamilyCareModel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TbFamilyCareModel.entitlements; path = TbFamilyCareModel/TbFamilyCareModel.entitlements; sourceTree = "<group>"; };
+		3185F823279ACBB0007C4638 /* Logo_screen-02@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Logo_screen-02@1x.png"; sourceTree = "<group>"; };
 		31FD12972775BEAC0043BFEB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		32F3F4D7C08F41D091DE0767 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		3F39A57139564325BA605556 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3185F823279ACBB0007C4638 /* Logo_screen-02@1x.png */,
 				31FD12972775BEAC0043BFEB /* Launch Screen.storyboard */,
 				310B090A274BBE8900714995 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* TbFamilyCareModel */,
@@ -336,6 +339,7 @@
 				28091A201E124679B4F3965D /* Feather.ttf in Resources */,
 				5812943D84804FC586BF3EDC /* FontAwesome.ttf in Resources */,
 				31FD12982775BEAC0043BFEB /* Launch Screen.storyboard in Resources */,
+				3185F824279ACBB1007C4638 /* Logo_screen-02@1x.png in Resources */,
 				DA3B417672914D8EBD8A7944 /* FontAwesome5_Brands.ttf in Resources */,
 				0FF4C96587D24668B5D21C49 /* FontAwesome5_Regular.ttf in Resources */,
 				ED34FB04EA2E46FF93E092A9 /* FontAwesome5_Solid.ttf in Resources */,
@@ -599,7 +603,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TbFamilyCareModel/TbFamilyCareModel.entitlements;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = LLW7279752;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TbFamilyCareModel/Info.plist;
@@ -628,7 +632,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TbFamilyCareModel/TbFamilyCareModel.entitlements;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = LLW7279752;
 				INFOPLIST_FILE = TbFamilyCareModel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -15,6 +15,7 @@ export default function AppRadioButton({
   label,
   isHorizontal = true,
   radio_props,
+  isState = false,
 }) {
   const {setFieldValue, values} = useFormikContext();
   return (
@@ -31,7 +32,7 @@ export default function AppRadioButton({
             <RadioButtonInput
               obj={obj}
               index={i}
-              isSelected={values[name] === i}
+              isSelected={isState ? values[name] === i + 1 : values[name] === i}
               onPress={value => {
                 setFieldValue(name, value);
               }}
@@ -42,8 +43,10 @@ export default function AppRadioButton({
             <RadioButtonLabel
               obj={obj}
               index={i}
-              labelHorizontal={true}
-              onPress={() => {}}
+              labelHorizontal={false}
+              onPress={value => {
+                setFieldValue(name, value);
+              }}
               labelStyle={styles.labelStyle}
               labelWrapStyle={styles.labelWrapStyle}
             />
@@ -64,16 +67,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.text,
     fontFamily: 'Assistant-Regular',
+
     // textTransform: 'capitalize',
   },
   labelStyle: {
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.text,
+    marginLeft: 3,
     fontFamily: 'Assistant-Regular',
     textTransform: 'capitalize',
   },
   radioButton: {
     flex: 1,
+    alignItems: 'flex-start',
+    marginRight: 20,
   },
-  labelWrapStyle: {},
+  labelWrapStyle: {
+    flexWrap: 'wrap',
+  },
 });

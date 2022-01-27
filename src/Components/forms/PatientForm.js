@@ -1,5 +1,7 @@
 import {Field, Formik} from 'formik';
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {View, Text, StyleSheet} from 'react-native';
 
 import {
@@ -9,14 +11,17 @@ import {
   dmcOptions,
   genderOptions,
   morningSampleOptions,
+  npyOptions,
   PatientFormSchema,
   relationOptions,
   sampleOptions,
+  testOptions,
   trackerOptions,
   trackerWeekOptions,
 } from '../../Services/formData';
 import {Colors} from '../../Theme';
 import AppButton from '../AppButton';
+import {AppContext} from '../AppContext';
 import AppDatePicker from '../AppDatePicker';
 import AppText from '../AppText';
 import AppFormField from './AppFormField';
@@ -28,6 +33,26 @@ export default function PatientForm({onSubmit, initialValues}) {
   const [open, setOpen] = useState(false);
   const [openD, setOpenD] = useState(false);
   const [openT, setOpenT] = useState(false);
+  const [username, setUsername] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const getUsername = async () => {
+      try {
+        await AsyncStorage.getItem('username').then(value => {
+          if (isMounted) {
+            setUsername(value);
+          }
+        });
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    getUsername();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function addNewSession(values, setFieldValue) {
     const sessionArray = values.new_sessions || [];
@@ -42,6 +67,7 @@ export default function PatientForm({onSubmit, initialValues}) {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={
           initialValues
             ? initialValues
@@ -54,9 +80,13 @@ export default function PatientForm({onSubmit, initialValues}) {
                 sample_sent: '',
                 cup_provided: '',
                 morning_sample_sent: '',
+                sample_test_result: '',
                 date_of_diagnosis: new Date(),
                 date_of_treatment: new Date(),
+                npy_availed: '',
+                six_months_diagnosis: '',
                 tracker_recieved: '',
+                completed_diagnosis: '',
                 t_week1: '',
                 t_week2: '',
                 t_week3: '',
@@ -72,11 +102,12 @@ export default function PatientForm({onSubmit, initialValues}) {
                 c_relation: '',
                 c_phone: '',
                 new_sessions: [],
+                user: username,
               }
         }
         validationSchema={PatientFormSchema}
         onSubmit={onSubmit}>
-        {({values, setFieldValue}) => (
+        {({values, setFieldValue, isSubmitting}) => (
           <>
             <AppText style={styles.text}>patient information</AppText>
             <AppDatePicker
@@ -104,7 +135,6 @@ export default function PatientForm({onSubmit, initialValues}) {
               <AppFormField
                 name="age"
                 label="age"
-                maxLength={2}
                 keyboardType={'numeric'}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -112,6 +142,7 @@ export default function PatientForm({onSubmit, initialValues}) {
               <AppFormField
                 name="phone"
                 label="Phone Number"
+                placeholder="9876543210"
                 maxLength={10}
                 keyboardType={'numeric'}
                 autoCapitalize="none"
@@ -155,6 +186,17 @@ export default function PatientForm({onSubmit, initialValues}) {
                     name="morning_sample_sent"
                   />
                 )}
+              {values.category === 0 &&
+                values.sample_collected === 0 &&
+                values.sample_sent === 0 &&
+                values.cup_provided === 0 &&
+                values.morning_sample_sent === 0 && (
+                  <AppRadioButton
+                    label={'Test Results'}
+                    radio_props={testOptions}
+                    name="sample_test_result"
+                  />
+                )}
 
               {values.category === 1 && (
                 <>
@@ -195,6 +237,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                       setOpenT(false);
                     }}
                   />
+
                   <AppRadioButton
                     label={'Progress Tracker Received'}
                     radio_props={trackerOptions}
@@ -239,6 +282,23 @@ export default function PatientForm({onSubmit, initialValues}) {
                 autoCapitalize="none"
                 autoCorrect={false}
               />
+              <AppRadioButton
+                label={'Availed Nikshay Poshan Yojana ?'}
+                radio_props={npyOptions}
+                name="npy_availed"
+              />
+              <AppRadioButton
+                label={'Is the patient 6 months from their diagnosis ?'}
+                radio_props={npyOptions}
+                name="six_months_diagnosis"
+              />
+              {values.six_months_diagnosis === 0 && (
+                <AppRadioButton
+                  label={'Has the patient completed their diagnosis ?'}
+                  radio_props={npyOptions}
+                  name="completed_diagnosis"
+                />
+              )}
             </View>
             <AppText style={styles.text}>Caregiver information</AppText>
             <View style={styles.inputContainer}>
@@ -251,7 +311,6 @@ export default function PatientForm({onSubmit, initialValues}) {
               <AppFormField
                 name="c_age"
                 label="age"
-                maxLength={2}
                 keyboardType={'numeric'}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -267,6 +326,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                 radio_props={genderOptions}
                 name="c_gender"
               />
+
               <AppRadioButton
                 isHorizontal={false}
                 label={'Relation to Patient'}
@@ -302,7 +362,11 @@ export default function PatientForm({onSubmit, initialValues}) {
               </View>
             )}
 
-            <SubmitButton bg={Colors.appColor} textColor={Colors.white} />
+            <SubmitButton
+              disabled={isSubmitting}
+              bg={!isSubmitting ? Colors.appColor : Colors.gray}
+              textColor={Colors.white}
+            />
           </>
         )}
       </Formik>

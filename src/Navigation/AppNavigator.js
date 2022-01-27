@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeScreen from '../Screens/HomeScreen';
 import AddPatientScreen from '../Screens/AddPatientScreen';
@@ -11,6 +12,7 @@ import SessionNavigator from './SessionNavigator';
 import routes from './routes';
 import CustomDrawerContent from '../Components/DrawerContent';
 import ProfileNavigator from './ProfileNavigator';
+import AuthNavigator from './AuthNavigator';
 const Drawer = createDrawerNavigator();
 
 const AppNavigator = () => {
@@ -83,7 +85,6 @@ const AppNavigator = () => {
           ),
         })}
       />
-
       <Drawer.Screen
         name="Profile"
         component={ProfileNavigator}

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../Theme';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AppText from './AppText';
 import routes from '../Navigation/routes';
+import {AppContext} from './AppContext';
 
 export default function CustomDrawerContent(props) {
+  const {isLoggedIn, setLoggedIn} = useContext(AppContext);
+
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.container}>
@@ -28,6 +33,13 @@ export default function CustomDrawerContent(props) {
           <AppText style={styles.drawerHeader}>Hello!</AppText>
         </View>
         <DrawerItemList {...props} />
+        <DrawerItem
+          label="Logout"
+          onPress={() => {
+            setLoggedIn(!isLoggedIn);
+            AsyncStorage.removeItem('token');
+          }}
+        />
       </View>
     </DrawerContentScrollView>
   );

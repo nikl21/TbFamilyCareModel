@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import NetInfo from '@react-native-community/netinfo';
 
 import {Colors} from '../Theme';
 import PatientForm from '../Components/forms/PatientForm';
@@ -30,6 +31,11 @@ export default function EditPatientScreen({route, navigation}) {
                 });
               });
             console.log(values);
+            NetInfo.fetch().then(state => {
+              if (!state.isConnected) {
+                navigation.navigate('SessionLists');
+              }
+            });
           }}
         />
       </View>
@@ -41,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    padding: 30,
+    padding: 20,
   },
   text: {
     textTransform: 'uppercase',

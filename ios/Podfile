@@ -16,6 +16,8 @@ target 'TbFamilyCareModel' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'TbFamilyCareModelTests' do
     inherit! :complete
     # Pods for testing

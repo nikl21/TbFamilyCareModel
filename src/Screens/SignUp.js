@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   StyleSheet,
   View,
@@ -16,8 +18,28 @@ import {
   AppText,
 } from '../Components';
 import {SignUpSchema} from '../Services/formData';
+import {axiosApi} from '../Services/api/axiosApi';
+import {AppContext} from '../Components/AppContext';
 
 export default function SignUp({navigation}) {
+  const {isLoggedIn, setLoggedIn} = useContext(AppContext);
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token').then(value => {
+        console.log('token', value);
+      });
+    } catch (e) {
+      // error reading value
+    }
+  };
+  const storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      // saving error
+    }
+  };
   return (
     <View style={styles.container}>
       <AppForm
@@ -25,11 +47,22 @@ export default function SignUp({navigation}) {
           username: '',
           password: '',
           passwordConfirmation: '',
-          choName: '',
+          name: '',
+          facility_name: '',
         }}
         validationSchema={SignUpSchema}
         onSubmit={values => {
-          console.log(values);
+          axiosApi
+            .post('/users/signup.json', values)
+            .then(response => {
+              console.log('signed up', response.data);
+              storeData('username', response.data.access_token);
+              storeData('token', values.username);
+              setLoggedIn(!isLoggedIn);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }}>
         <View style={styles.topBanner}>
           <Image source={Images.logo} style={styles.logo} />
@@ -58,7 +91,14 @@ export default function SignUp({navigation}) {
               style={styles.input}
             />
             <AppFormField
-              name="choName"
+              name="facility_name"
+              placeholder="Facility Name"
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.input}
+            />
+            <AppFormField
+              name="name"
               placeholder="CHO Name"
               autoCapitalize="none"
               autoCorrect={false}
