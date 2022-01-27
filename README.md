@@ -1,6 +1,6 @@
 # TbFamilyCareModel
 
-React Native App for CHO to record and Track TB patients
+React Native App for Community Health Workers to record and Track TB patients
 
 ## Installation :
 ### Install dependencies:
