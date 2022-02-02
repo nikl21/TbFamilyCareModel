@@ -16,6 +16,8 @@ export default function AppDatePicker({
   setOpen,
   date,
   label = 'Date',
+  maximumDate = new Date(),
+  minimumDate = null,
   ...props
 }) {
   return (
@@ -30,7 +32,8 @@ export default function AppDatePicker({
             date={date}
             {...props}
             mode="date"
-            maximumDate={new Date()}
+            maximumDate={maximumDate}
+            minimumDate={new Date(minimumDate)}
           />
         </View>
       </TouchableOpacity>

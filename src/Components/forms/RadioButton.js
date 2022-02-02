@@ -38,7 +38,7 @@ export default function AppRadioButton({
               }}
               borderWidth={1}
               buttonSize={10}
-              buttonColor={Colors.gray}
+              buttonColor={Colors.text}
             />
             <RadioButtonLabel
               obj={obj}

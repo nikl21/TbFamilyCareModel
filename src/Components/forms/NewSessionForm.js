@@ -35,6 +35,7 @@ export default function NewSessionForm({session_number, index}) {
         }}
       />
       <FormInput
+        multiline={true}
         onChangeText={handleChange(`new_sessions.${index}.notes`)}
         value={values.new_sessions[index].notes}
         label="Notes"

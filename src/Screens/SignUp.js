@@ -7,22 +7,17 @@ import {
   Image,
   Platform,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {Colors, Images} from '../Theme';
-import {
-  SubmitButton,
-  AppForm,
-  AppFormField,
-  AppButton,
-  AppText,
-} from '../Components';
+import {SubmitButton, AppForm, AppFormField, AppText} from '../Components';
 import {SignUpSchema} from '../Services/formData';
 import {axiosApi} from '../Services/api/axiosApi';
 import {AppContext} from '../Components/AppContext';
 
 export default function SignUp({navigation}) {
-  const {isLoggedIn, setLoggedIn} = useContext(AppContext);
+  const {isLoggedIn, setLoggedIn, setUserData} = useContext(AppContext);
 
   const getData = async () => {
     try {
@@ -41,7 +36,7 @@ export default function SignUp({navigation}) {
     }
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
       <AppForm
         initialValues={{
           username: '',
@@ -56,9 +51,20 @@ export default function SignUp({navigation}) {
             .post('/users/signup.json', values)
             .then(response => {
               console.log('signed up', response.data);
-              storeData('username', response.data.access_token);
-              storeData('token', values.username);
-              setLoggedIn(!isLoggedIn);
+              axiosApi
+                .post('/oauth/token.json', {
+                  username: values.username,
+                  password: values.password,
+                  grant_type: 'password',
+                  client_id: 'xVMtDXOMfuS8kO2ut67MqOJx40YFN85VXTZpSmjKIIY',
+                  client_secret: 'FTZA1X0C00Xu4jRRpe6SP3etliqJoRPlo-ACAXIBIM4',
+                })
+                .then(res => {
+                  storeData('token', res.data.access_token);
+                  storeData('username', values.username);
+                  setUserData(null);
+                  setLoggedIn(!isLoggedIn);
+                });
             })
             .catch(error => {
               console.log(error);
@@ -123,7 +129,7 @@ export default function SignUp({navigation}) {
           </View>
         </View>
       </AppForm>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -168,7 +174,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderColor: Colors.appColor,
-    paddingVertical: Platform.OS === 'ios' ? 10 : 2,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 5,
   },
   inputContainer: {
     marginHorizontal: 50,

@@ -41,14 +41,23 @@ export const SignUpSchema = Yup.object().shape({
 });
 
 export const ProfileSchema = Yup.object().shape({
-  // name: Yup.string().required('Required').label('Fullname'),
+  name: Yup.string().required('Required').label('Fullname'),
   phone: Yup.string().length(10),
+  facility_name: Yup.string().test(
+    'len',
+    'Must be less than 40 characters',
+    val => val.length < 40,
+  ),
 });
 export const PatientFormSchema = Yup.object().shape({
   name: Yup.string().required(),
   age: Yup.number().required().integer().max(120).min(0).label('Age'),
 
   phone: Yup.string()
+    .matches(
+      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+      'Please enter a valid phone number',
+    )
     .required()
     .test('len', 'Must be exactly 10 characters', val =>
       val ? val.length === 10 : true,

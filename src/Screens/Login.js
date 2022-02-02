@@ -92,7 +92,6 @@ export default function Login({navigation}) {
 
 const styles = StyleSheet.create({
   box: {
-    backgroundColor: Colors.error,
     width: '100%',
   },
   bottomBanner: {

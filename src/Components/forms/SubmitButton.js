@@ -13,12 +13,13 @@ export default function SubmitButton({
 }) {
   const {handleSubmit} = useFormikContext();
   return (
-    <View style={(styles.container, {backgroundColor: bg})}>
+    <View style={styles.container}>
       <AppButton
         title={title}
         onPress={handleSubmit}
         style={{color: textColor}}
         {...otherProps}
+        bg={bg}
       />
     </View>
   );

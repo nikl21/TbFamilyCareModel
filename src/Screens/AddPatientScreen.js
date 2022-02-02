@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, ScrollView, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import {Colors} from '../Theme';
@@ -10,33 +10,35 @@ import NetInfo from '@react-native-community/netinfo';
 export default function AddPatientScreen({navigation}) {
   const scrollRef = useRef();
   return (
-    <ScrollView style={styles.container} ref={scrollRef}>
-      <View style={styles.form}>
-        <PatientForm
-          onSubmit={(values, {resetForm}) => {
-            console.log(values);
-            firestore()
-              .collection('Patients')
-              .add(values)
-              .then(() => {
-                resetForm();
-                console.log('User added!');
-                navigation.navigate(routes.SESSIONS);
-                scrollRef.current?.scrollTo({
-                  y: 0,
-                  animated: true,
+    <KeyboardAvoidingView>
+      <ScrollView style={styles.container} ref={scrollRef}>
+        <View style={styles.form}>
+          <PatientForm
+            onSubmit={(values, {resetForm}) => {
+              console.log(values);
+              firestore()
+                .collection('Patients')
+                .add(values)
+                .then(() => {
+                  resetForm();
+                  console.log('User added!');
+                  navigation.navigate(routes.SESSIONS);
+                  scrollRef.current?.scrollTo({
+                    y: 0,
+                    animated: true,
+                  });
                 });
+              console.log(values);
+              NetInfo.fetch().then(state => {
+                if (!state.isConnected) {
+                  navigation.navigate(routes.SESSIONS);
+                }
               });
-            console.log(values);
-            NetInfo.fetch().then(state => {
-              if (!state.isConnected) {
-                navigation.navigate(routes.SESSIONS);
-              }
-            });
-          }}
-        />
-      </View>
-    </ScrollView>
+            }}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    padding: 20,
+    padding: 30,
   },
   text: {
     textTransform: 'uppercase',

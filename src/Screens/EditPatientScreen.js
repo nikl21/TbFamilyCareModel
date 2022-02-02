@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, ScrollView, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -11,35 +11,37 @@ export default function EditPatientScreen({route, navigation}) {
   const scrollRef = useRef();
 
   return (
-    <ScrollView style={styles.container} ref={scrollRef}>
-      <View style={styles.form}>
-        <PatientForm
-          initialValues={initialValues}
-          onSubmit={(values, {resetForm}) => {
-            console.log('values', values.date);
-            firestore()
-              .collection('Patients')
-              .doc(key)
-              .update(values)
-              .then(() => {
-                resetForm();
-                console.log('User added!');
-                navigation.navigate('SessionLists');
-                scrollRef.current?.scrollTo({
-                  y: 0,
-                  animated: true,
+    <KeyboardAvoidingView style={styles.container}>
+      <ScrollView ref={scrollRef}>
+        <View style={styles.form}>
+          <PatientForm
+            initialValues={initialValues}
+            onSubmit={(values, {resetForm}) => {
+              console.log('values', values.date);
+              firestore()
+                .collection('Patients')
+                .doc(key)
+                .update(values)
+                .then(() => {
+                  resetForm();
+                  console.log('User added!');
+                  navigation.navigate('SessionLists');
+                  scrollRef.current?.scrollTo({
+                    y: 0,
+                    animated: true,
+                  });
                 });
+              console.log(values);
+              NetInfo.fetch().then(state => {
+                if (!state.isConnected) {
+                  navigation.navigate('SessionLists');
+                }
               });
-            console.log(values);
-            NetInfo.fetch().then(state => {
-              if (!state.isConnected) {
-                navigation.navigate('SessionLists');
-              }
-            });
-          }}
-        />
-      </View>
-    </ScrollView>
+            }}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    padding: 20,
+    padding: 30,
   },
   text: {
     textTransform: 'uppercase',

@@ -1,9 +1,7 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
-import Config from 'react-native-config';
 import {AppButton, AppText} from '../Components';
 import {AppContext} from '../Components/AppContext';
 import {axiosApi, fetchClient} from '../Services/api/axiosApi';
@@ -12,6 +10,7 @@ import {Colors} from '../Theme';
 export default function ProfileScreen({navigation}) {
   const {userData, setUserData} = useContext(AppContext);
   const [token, setToken] = useState(null);
+  console.log(token);
 
   const getData = async isMounted => {
     try {
@@ -28,7 +27,7 @@ export default function ProfileScreen({navigation}) {
   useEffect(() => {
     let isMounted = true;
     getData(isMounted);
-    if (token) {
+    if (token && !userData) {
       const data = axiosApi
         .get('/users/profile.json', {
           headers: {
@@ -46,7 +45,7 @@ export default function ProfileScreen({navigation}) {
     return () => {
       isMounted = false;
     };
-  }, [token, setUserData]);
+  }, [token, setUserData, userData]);
   return (
     <View style={styles.container}>
       <AppText style={styles.header}>personal details </AppText>
@@ -83,9 +82,9 @@ export default function ProfileScreen({navigation}) {
                     name: userData.name,
                     mobile_number: userData.mobile_number,
                     facility_name: userData.facility_name,
-                    state_id: userData.state.id,
+                    state_id: userData.state ? userData.state.id : 1,
                   },
-                  stateName: userData.state.name,
+                  stateName: userData.state ? userData.state.name : '',
                 })
               }
             />
@@ -110,6 +109,8 @@ const styles = StyleSheet.create({
   field: {
     fontSize: 16,
     fontFamily: 'Assistant-SemiBold',
+    flexWrap: 'wrap',
+    flex: 1,
   },
   fieldContainer: {flexDirection: 'row', paddingVertical: 10},
   label: {

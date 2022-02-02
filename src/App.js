@@ -23,6 +23,17 @@ const App = () => {
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(null);
   const [stateData, setStateData] = useState(null);
+  const [hideSplash, setHideSplash] = React.useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHideSplash(true);
+    }, 1200); // amount of time the splash is shown from the time component is rendered
+  }, []);
+
+  useEffect(() => {
+    hideSplash && SplashScreen.hide();
+  }, [hideSplash]);
 
   const providerValue = useMemo(
     () => ({
@@ -39,7 +50,6 @@ const App = () => {
   );
 
   useEffect(() => {
-    SplashScreen.hide();
     const getToken = async () => {
       try {
         const token = await AsyncStorage.getItem('token').then(value => value);

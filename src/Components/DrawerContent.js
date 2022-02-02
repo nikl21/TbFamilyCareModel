@@ -14,7 +14,7 @@ import routes from '../Navigation/routes';
 import {AppContext} from './AppContext';
 
 export default function CustomDrawerContent(props) {
-  const {isLoggedIn, setLoggedIn} = useContext(AppContext);
+  const {isLoggedIn, setLoggedIn, setUserData} = useContext(AppContext);
 
   return (
     <DrawerContentScrollView {...props}>
@@ -37,7 +37,10 @@ export default function CustomDrawerContent(props) {
           label="Logout"
           onPress={() => {
             setLoggedIn(!isLoggedIn);
+            setUserData(null);
+
             AsyncStorage.removeItem('token');
+            AsyncStorage.removeItem('username');
           }}
         />
       </View>
