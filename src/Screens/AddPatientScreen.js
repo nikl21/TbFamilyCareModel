@@ -10,35 +10,33 @@ import NetInfo from '@react-native-community/netinfo';
 export default function AddPatientScreen({navigation}) {
   const scrollRef = useRef();
   return (
-    <KeyboardAvoidingView>
-      <ScrollView style={styles.container} ref={scrollRef}>
-        <View style={styles.form}>
-          <PatientForm
-            onSubmit={(values, {resetForm}) => {
-              console.log(values);
-              firestore()
-                .collection('Patients')
-                .add(values)
-                .then(() => {
-                  resetForm();
-                  console.log('User added!');
-                  navigation.navigate(routes.SESSIONS);
-                  scrollRef.current?.scrollTo({
-                    y: 0,
-                    animated: true,
-                  });
+    <ScrollView style={styles.container} ref={scrollRef}>
+      <View style={styles.form}>
+        <PatientForm
+          onSubmit={(values, {resetForm}) => {
+            console.log(values);
+            firestore()
+              .collection('Patients')
+              .add(values)
+              .then(() => {
+                resetForm();
+                console.log('User added!');
+                navigation.navigate(routes.SESSIONS);
+                scrollRef.current?.scrollTo({
+                  y: 0,
+                  animated: true,
                 });
-              console.log(values);
-              NetInfo.fetch().then(state => {
-                if (!state.isConnected) {
-                  navigation.navigate(routes.SESSIONS);
-                }
               });
-            }}
-          />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            console.log(values);
+            NetInfo.fetch().then(state => {
+              if (!state.isConnected) {
+                navigation.navigate(routes.SESSIONS);
+              }
+            });
+          }}
+        />
+      </View>
+    </ScrollView>
   );
 }
 

@@ -10,8 +10,6 @@ import {Colors} from '../Theme';
 export default function ProfileScreen({navigation}) {
   const {userData, setUserData} = useContext(AppContext);
   const [token, setToken] = useState(null);
-  console.log(token);
-
   const getData = async isMounted => {
     try {
       const value = await AsyncStorage.getItem('token').then(value => {
@@ -48,7 +46,7 @@ export default function ProfileScreen({navigation}) {
   }, [token, setUserData, userData]);
   return (
     <View style={styles.container}>
-      <AppText style={styles.header}>personal details </AppText>
+      <AppText style={styles.header}>Facility Profile </AppText>
       {!userData ? (
         <ActivityIndicator />
       ) : (
@@ -71,6 +69,18 @@ export default function ProfileScreen({navigation}) {
               {userData.state ? userData.state.name : ''}
             </AppText>
           </View>
+          <View style={styles.fieldContainer}>
+            <AppText style={styles.label}>District :</AppText>
+            <AppText style={styles.field}>
+              {userData.district ? userData.district.name : ''}
+            </AppText>
+          </View>
+          <View style={styles.fieldContainer}>
+            <AppText style={styles.label}>Block :</AppText>
+            <AppText style={styles.field}>
+              {userData.block ? userData.block.name : ''}
+            </AppText>
+          </View>
           <View style={styles.buttonContainer}>
             <AppButton
               title={'Edit Profile'}
@@ -82,9 +92,17 @@ export default function ProfileScreen({navigation}) {
                     name: userData.name,
                     mobile_number: userData.mobile_number,
                     facility_name: userData.facility_name,
-                    state_id: userData.state ? userData.state.id : 1,
+                    state_id: userData.state ? userData.state.id : 14,
+                    district_id: userData.district
+                      ? userData.district.id
+                      : null,
+                    block_id: userData.block ? userData.block.id : null,
                   },
-                  stateName: userData.state ? userData.state.name : '',
+                  stateName: userData.state
+                    ? userData.state.name
+                    : 'Madhya Pradesh',
+                  districtName: userData.district ? userData.district.name : '',
+                  blockName: userData.block ? userData.block.name : '',
                 })
               }
             />

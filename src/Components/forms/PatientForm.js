@@ -13,6 +13,7 @@ import {
   morningSampleOptions,
   npyOptions,
   PatientFormSchema,
+  patientTypeOptions,
   relationOptions,
   sampleOptions,
   testOptions,
@@ -32,6 +33,9 @@ export default function PatientForm({onSubmit, initialValues}) {
   const [open, setOpen] = useState(false);
   const [openD, setOpenD] = useState(false);
   const [openT, setOpenT] = useState(false);
+  const [openSD, setOpenSD] = useState(false);
+  const [openTR, setOpenTR] = useState(false);
+
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
@@ -59,8 +63,27 @@ export default function PatientForm({onSubmit, initialValues}) {
       session_number: sessionArray.length + 2,
       date_of_visit: new Date(),
       notes: '',
+      drugReaction: '',
+      action: '',
+      medication: '',
+      other: '',
     });
     setFieldValue('new_sessions', sessionArray);
+  }
+
+  function setDynamicValues(values, setFieldValue) {
+    if (
+      values.category === 1 &&
+      (values.sample_test_result === 1 || values.sample_test_result === 0)
+    ) {
+      setFieldValue('sample_test_result', '');
+    } else if (
+      values.category === 0 &&
+      values.morning_sample_sent === 1 &&
+      (values.sample_test_result === 1 || values.sample_test_result === 0)
+    ) {
+      setFieldValue('sample_test_result', '');
+    }
   }
 
   return (
@@ -75,23 +98,27 @@ export default function PatientForm({onSubmit, initialValues}) {
                   name: '',
                   age: '',
                   category: '',
+                  patient_type: '',
                   sample_collected: '',
                   sample_sent: '',
+                  sample_send_date: new Date(),
                   cup_provided: '',
                   morning_sample_sent: '',
                   sample_test_result: '',
+                  date_of_test_result: new Date(),
                   date_of_diagnosis: new Date(),
                   date_of_treatment: new Date(),
                   npy_availed: '',
-                  six_months_diagnosis: '',
-                  tracker_recieved: '',
                   completed_diagnosis: '',
+                  tracker_recieved: '',
                   t_week1: '',
                   t_week2: '',
                   t_week3: '',
                   t_week4: '',
                   gender: '',
                   phone: '',
+                  second_phone: '',
+                  third_phone: '',
                   address: '',
                   c_name: '',
                   c_age: '',
@@ -100,6 +127,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   c_gender: '',
                   c_relation: '',
                   c_phone: '',
+                  c_second_phone: '',
                   new_sessions: [],
                   user: username,
                 }
@@ -149,11 +177,30 @@ export default function PatientForm({onSubmit, initialValues}) {
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
+                <AppFormField
+                  name="second_phone"
+                  label="Second Phone Number"
+                  placeholder="9876543210"
+                  maxLength={10}
+                  keyboardType={'numeric'}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                <AppFormField
+                  name="third_phone"
+                  label="Third Phone Number"
+                  placeholder="9876543210"
+                  maxLength={10}
+                  keyboardType={'numeric'}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
                 <AppRadioButton
                   label={'TB Patient Category'}
                   radio_props={categoryOptions}
                   name="category"
                 />
+                {setDynamicValues(values, setFieldValue)}
                 {values.category === 0 && (
                   <AppRadioButton
                     label={'Sample Collected'}
@@ -163,16 +210,40 @@ export default function PatientForm({onSubmit, initialValues}) {
                 )}
                 {values.category === 0 && values.sample_collected === 0 && (
                   <AppRadioButton
-                    label={'Sample Sent To DMC'}
+                    label={'Sample Sent To DMC/TDC'}
                     radio_props={dmcOptions}
                     name="sample_sent"
                   />
                 )}
+
+                {values.category === 0 &&
+                  values.sample_collected === 0 &&
+                  values.sample_sent === 0 && (
+                    <AppDatePicker
+                      modal
+                      label="Sample Sent Date"
+                      name="sample_send_date"
+                      setOpen={setOpenSD}
+                      open={openSD}
+                      date={
+                        values.sample_send_date instanceof Date
+                          ? values.sample_send_date
+                          : values.sample_send_date.toDate()
+                      }
+                      onConfirm={date => {
+                        setOpenSD(false);
+                        setFieldValue('sample_send_date', date);
+                      }}
+                      onCancel={() => {
+                        setOpenSD(false);
+                      }}
+                    />
+                  )}
                 {values.category === 0 &&
                   values.sample_collected === 0 &&
                   values.sample_sent === 0 && (
                     <AppRadioButton
-                      label={'Suptum Cup Provided'}
+                      label={'Sputum Cup Provided'}
                       radio_props={cupOptions}
                       name="cup_provided"
                     />
@@ -198,9 +269,40 @@ export default function PatientForm({onSubmit, initialValues}) {
                       name="sample_test_result"
                     />
                   )}
-
+                {values.category === 0 &&
+                  values.sample_collected === 0 &&
+                  values.sample_sent === 0 &&
+                  values.cup_provided === 0 &&
+                  values.morning_sample_sent === 0 &&
+                  values.sample_test_result !== '' && (
+                    <AppDatePicker
+                      modal
+                      label="Date of test Result"
+                      name="date_of_test_result"
+                      setOpen={setOpenTR}
+                      open={openTR}
+                      date={
+                        values.date_of_test_result instanceof Date
+                          ? values.date_of_test_result
+                          : values.date_of_test_result.toDate()
+                      }
+                      onConfirm={date => {
+                        setOpenTR(false);
+                        setFieldValue('date_of_test_result', date);
+                      }}
+                      onCancel={() => {
+                        setOpenTR(false);
+                      }}
+                    />
+                  )}
                 {values.category === 1 && (
                   <>
+                    <AppRadioButton
+                      labelStyle={{textTransform: 'none'}}
+                      label={'Type of Patient'}
+                      radio_props={patientTypeOptions}
+                      name="patient_type"
+                    />
                     <AppDatePicker
                       modal
                       label="Date of Diagnosis"
@@ -222,7 +324,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                     />
                     <AppDatePicker
                       modal
-                      label="Date of Treatment"
+                      label="Date of Treatment Initiation"
                       setOpen={setOpenT}
                       open={openT}
                       minimumDate={
@@ -254,22 +356,22 @@ export default function PatientForm({onSubmit, initialValues}) {
                     {values.tracker_recieved === 0 && (
                       <>
                         <AppRadioButton
-                          label={'Week 1'}
+                          label={'Filled in Week 1'}
                           radio_props={trackerWeekOptions}
                           name="t_week1"
                         />
                         <AppRadioButton
-                          label={'Week 2'}
+                          label={'Filled in Week 2'}
                           radio_props={trackerWeekOptions}
                           name="t_week2"
                         />
                         <AppRadioButton
-                          label={'Week 3'}
+                          label={'Filled in Week 3'}
                           radio_props={trackerWeekOptions}
                           name="t_week3"
                         />
                         <AppRadioButton
-                          label={'Week 4'}
+                          label={'Filled in Week 4'}
                           radio_props={trackerWeekOptions}
                           name="t_week4"
                         />
@@ -277,7 +379,6 @@ export default function PatientForm({onSubmit, initialValues}) {
                     )}
                   </>
                 )}
-
                 <AppRadioButton
                   label={'Gender'}
                   isHorizontal={false}
@@ -291,22 +392,19 @@ export default function PatientForm({onSubmit, initialValues}) {
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
-                <AppRadioButton
-                  label={'Availed Nikshay Poshan Yojana ?'}
-                  radio_props={npyOptions}
-                  name="npy_availed"
-                />
-                <AppRadioButton
-                  label={'Is the patient 6 months from their diagnosis ?'}
-                  radio_props={npyOptions}
-                  name="six_months_diagnosis"
-                />
-                {values.six_months_diagnosis === 0 && (
-                  <AppRadioButton
-                    label={'Has the patient completed their diagnosis ?'}
-                    radio_props={npyOptions}
-                    name="completed_diagnosis"
-                  />
+                {(values.category === 1 || values.sample_test_result === 0) && (
+                  <>
+                    <AppRadioButton
+                      label={'Availed Nikshay Poshan Yojana ?'}
+                      radio_props={npyOptions}
+                      name="npy_availed"
+                    />
+                    <AppRadioButton
+                      label={'Has the patient completed their treatment ?'}
+                      radio_props={npyOptions}
+                      name="completed_diagnosis"
+                    />
+                  </>
                 )}
               </View>
               <AppText style={styles.text}>Caregiver information</AppText>
@@ -326,7 +424,17 @@ export default function PatientForm({onSubmit, initialValues}) {
                 />
                 <AppFormField
                   name="c_phone"
+                  placeholder="9876543210"
                   label="Phone Number"
+                  maxLength={10}
+                  keyboardType={'numeric'}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                <AppFormField
+                  name="c_second_phone"
+                  placeholder="9876543210"
+                  label="Second Phone Number"
                   maxLength={10}
                   keyboardType={'numeric'}
                   autoCapitalize="none"
@@ -353,7 +461,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   name="c_relation"
                 />
               </View>
-              {initialValues && (
+              {initialValues && values.category === 1 && (
                 <View style={styles.AddSessionContainer}>
                   {values.new_sessions &&
                     values.new_sessions.map((session, index) => (

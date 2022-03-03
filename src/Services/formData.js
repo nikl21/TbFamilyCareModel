@@ -12,6 +12,7 @@ export const LoginSchema = Yup.object().shape({
     .required('Required')
     .label('Password'),
 });
+
 export const SignUpSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, 'Too Short!')
@@ -115,6 +116,24 @@ export var trackerWeekOptions = [
   {label: 'No', value: 1},
 ];
 export var npyOptions = [
+  {label: 'Yes', value: 0},
+  {label: 'No', value: 1},
+];
+export var patientTypeOptions = [
+  {label: 'Drug Sensitive TB', value: 0},
+  {label: 'Drug Resistant TB', value: 1},
+];
+
+export var drugReactionOptions = [
+  {label: 'Yes', value: 0},
+  {label: 'No', value: 1},
+];
+export var actionOptions = [
+  {label: 'Counseling', value: 0},
+  {label: 'Refer to higher health center', value: 1},
+  {label: 'Other', value: 2},
+];
+export var medicationOptions = [
   {label: 'Yes', value: 0},
   {label: 'No', value: 1},
 ];

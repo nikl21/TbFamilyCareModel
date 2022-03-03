@@ -1,16 +1,33 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Colors} from '../../Theme';
 import AppText from '../AppText';
 
-export default function FormInput({icon, type, style, label, ...otherProps}) {
+export default function FormInput({
+  icon,
+  type,
+  style,
+  label,
+  labelStyle,
+  ...otherProps
+}) {
+  const inputRef = useRef(null);
   const [hidePass, setHidePass] = useState(true);
   return (
     <View style={styles.container}>
-      {label && <AppText style={styles.label}>{label}</AppText>}
+      {label && (
+        <AppText style={labelStyle ? labelStyle : styles.label}>
+          {label}
+        </AppText>
+      )}
       {icon || type === 'password' ? (
-        <View style={[styles.inputContainer, style]}>
+        <View
+          style={[styles.inputContainer, style]}
+          onPress={() => {
+            inputRef.focus();
+            console.log('hi');
+          }}>
           {icon && (
             <Icon
               name={icon}
@@ -20,6 +37,7 @@ export default function FormInput({icon, type, style, label, ...otherProps}) {
             />
           )}
           <TextInput
+            ref={inputRef}
             placeholderTextColor={Colors.gray}
             {...otherProps}
             secureTextEntry={
@@ -75,5 +93,6 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.text,
     paddingVertical: 0,
+    flex: 1,
   },
 });

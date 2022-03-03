@@ -14,8 +14,8 @@ export default function EditProfileScreen({route, navigation}) {
   const {userData, setUserData} = useContext(AppContext);
 
   const [token, setToken] = useState(null);
-
   const scrollRef = useRef();
+  //Not filtering for districts right now as the data only has districts from MP
   const getData = async isMounted => {
     try {
       const value = await AsyncStorage.getItem('token').then(value => {
@@ -59,7 +59,7 @@ export default function EditProfileScreen({route, navigation}) {
                 console.log(error);
               });
           }}>
-          <AppText style={styles.text}>patient information</AppText>
+          <AppText style={styles.text}>Edit Profile</AppText>
 
           <AppFormField
             name="name"
