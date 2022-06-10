@@ -13,10 +13,12 @@ import {AppButton, AppInput, AppText} from '../Components';
 import ListSession from '../Components/ListSession';
 import {Colors, Images} from '../Theme';
 import {AppContext} from '../Components/AppContext';
+import {useTranslation} from 'react-i18next';
 
 export default function SessionsScreen({navigation}) {
   const [filteredData, setFilteredData] = useState('');
   const [username, setUsername] = useState(false);
+  const {i18n} = useTranslation();
 
   const {patientData, setPatientData} = useContext(AppContext);
   function onChangeText(text) {
@@ -66,14 +68,30 @@ export default function SessionsScreen({navigation}) {
     return () => subscriber();
   }, [username, setPatientData]);
 
+  // useEffect(() => {
+  //   const subscriber = firestore()
+  //     .collection('Patients')
+  //     .get()
+  //     .then(snap => {
+  //       // will return the collection size
+  //       console.log(snap.size);
+  //     });
+
+  //   // Unsubscribe from events when no longer in use
+  //   return () => subscriber();
+  // }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.topInputContainer}>
-          <AppText style={styles.title}>Hello!</AppText>
+          <AppText style={styles.title}>
+            {i18n.t('previousPatient.hello')}
+          </AppText>
           <AppText style={styles.subtitle}>
-            You can <AppText style={styles.subtitleBold}>view or edit</AppText>{' '}
-            your previous patient entries by clicking on them.
+            {i18n.t('previousPatient.subtitle')}
+            {/* You can <AppText style={styles.subtitleBold}>view or edit</AppText>{' '}
+            your previous patient entries by clicking on them. */}
           </AppText>
           <View style={styles.lineStyle} />
           <View style={styles.impactContainer}>
@@ -81,7 +99,9 @@ export default function SessionsScreen({navigation}) {
               <AppText style={styles.impactTitle}>
                 {patientData && patientData.length}
               </AppText>
-              <AppText style={styles.impactSubtitle}>Patients Impacted</AppText>
+              <AppText style={styles.impactSubtitle}>
+                {i18n.t('previousPatient.impacted')}
+              </AppText>
             </View>
           </View>
         </View>
@@ -124,7 +144,7 @@ export default function SessionsScreen({navigation}) {
       <View style={styles.buttonContainer}>
         <AppButton
           style={styles.button}
-          title={'Add Patient'}
+          title={i18n.t('previousPatient.button')}
           bg={Colors.appColor}
           onPress={() => navigation.navigate('Add Patient')}
         />

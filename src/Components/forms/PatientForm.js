@@ -1,8 +1,9 @@
 import {Formik} from 'formik';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import {View, Text, StyleSheet, Modal, Button} from 'react-native';
+import i18n from '../../Translations';
 
 import {
   caregiverOptions,
@@ -29,13 +30,13 @@ import NewSessionForm from './NewSessionForm';
 import AppRadioButton from './RadioButton';
 import SubmitButton from './SubmitButton';
 
-export default function PatientForm({onSubmit, initialValues}) {
+export default function PatientForm({onSubmit, id, initialValues, navigation}) {
   const [open, setOpen] = useState(false);
   const [openD, setOpenD] = useState(false);
   const [openT, setOpenT] = useState(false);
   const [openSD, setOpenSD] = useState(false);
   const [openTR, setOpenTR] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export default function PatientForm({onSubmit, initialValues}) {
             initialValues
               ? initialValues
               : {
+                  createDate: new Date(),
                   date: new Date(),
                   name: '',
                   age: '',
@@ -128,17 +130,39 @@ export default function PatientForm({onSubmit, initialValues}) {
                   c_relation: '',
                   c_phone: '',
                   c_second_phone: '',
+                  addSecondCaregiver: '',
+                  c_name_2: '',
+                  c_age_2: '',
+                  c_category_2: '',
+                  c_tested_negative_2: '',
+                  c_gender_2: '',
+                  c_relation_2: '',
+                  c_phone_2: '',
+                  c_second_phone_2: '',
+                  addThirdCaregiver: '',
+                  c_name_3: '',
+                  c_age_3: '',
+                  c_category_3: '',
+                  c_tested_negative_3: '',
+                  c_gender_3: '',
+                  c_relation_3: '',
+                  c_phone_3: '',
+                  c_second_phone_3: '',
                   new_sessions: [],
                   user: username,
+                  notes: '',
                 }
           }
           validationSchema={PatientFormSchema}
           onSubmit={onSubmit}>
           {({values, setFieldValue, isSubmitting}) => (
             <>
-              <AppText style={styles.text}>patient information</AppText>
+              <AppText style={styles.text}>
+                {i18n.t('addPatient.heading1')}
+              </AppText>
               <AppDatePicker
                 modal
+                label={i18n.t('addPatient.date')}
                 setOpen={setOpen}
                 open={open}
                 date={
@@ -157,20 +181,20 @@ export default function PatientForm({onSubmit, initialValues}) {
               <View style={styles.inputContainer}>
                 <AppFormField
                   name="name"
-                  label="Patient Name"
+                  label={i18n.t('addPatient.patientName')}
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="age"
-                  label="age"
+                  label={i18n.t('addPatient.age')}
                   keyboardType={'numeric'}
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="phone"
-                  label="Phone Number"
+                  label={i18n.t('addPatient.patientPH1')}
                   placeholder="9876543210"
                   maxLength={10}
                   keyboardType={'numeric'}
@@ -179,7 +203,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                 />
                 <AppFormField
                   name="second_phone"
-                  label="Second Phone Number"
+                  label={i18n.t('addPatient.patientPH2')}
                   placeholder="9876543210"
                   maxLength={10}
                   keyboardType={'numeric'}
@@ -188,7 +212,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                 />
                 <AppFormField
                   name="third_phone"
-                  label="Third Phone Number"
+                  label={i18n.t('addPatient.patientPH3')}
                   placeholder="9876543210"
                   maxLength={10}
                   keyboardType={'numeric'}
@@ -196,21 +220,21 @@ export default function PatientForm({onSubmit, initialValues}) {
                   autoCorrect={false}
                 />
                 <AppRadioButton
-                  label={'TB Patient Category'}
+                  label={i18n.t('addPatient.patientCategory')}
                   radio_props={categoryOptions}
                   name="category"
                 />
                 {setDynamicValues(values, setFieldValue)}
                 {values.category === 0 && (
                   <AppRadioButton
-                    label={'Sample Collected'}
+                    label={i18n.t('addPatient.sampleCollected')}
                     radio_props={sampleOptions}
                     name="sample_collected"
                   />
                 )}
                 {values.category === 0 && values.sample_collected === 0 && (
                   <AppRadioButton
-                    label={'Sample Sent To DMC/TDC'}
+                    label={i18n.t('addPatient.sampleSentToDMC')}
                     radio_props={dmcOptions}
                     name="sample_sent"
                   />
@@ -221,7 +245,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   values.sample_sent === 0 && (
                     <AppDatePicker
                       modal
-                      label="Sample Sent Date"
+                      label={i18n.t('addPatient.sampleSentDate')}
                       name="sample_send_date"
                       setOpen={setOpenSD}
                       open={openSD}
@@ -243,7 +267,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   values.sample_collected === 0 &&
                   values.sample_sent === 0 && (
                     <AppRadioButton
-                      label={'Sputum Cup Provided'}
+                      label={i18n.t('addPatient.sputumProvided')}
                       radio_props={cupOptions}
                       name="cup_provided"
                     />
@@ -253,7 +277,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   values.sample_sent === 0 &&
                   values.cup_provided === 0 && (
                     <AppRadioButton
-                      label={'Morning Sample Sent'}
+                      label={i18n.t('addPatient.sampleNotSent')}
                       radio_props={morningSampleOptions}
                       name="morning_sample_sent"
                     />
@@ -264,7 +288,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   values.cup_provided === 0 &&
                   values.morning_sample_sent === 0 && (
                     <AppRadioButton
-                      label={'Test Results'}
+                      label={i18n.t('addPatient.testResults')}
                       radio_props={testOptions}
                       name="sample_test_result"
                     />
@@ -277,7 +301,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                   values.sample_test_result !== '' && (
                     <AppDatePicker
                       modal
-                      label="Date of test Result"
+                      label={i18n.t('addPatient.dateofTestResults')}
                       name="date_of_test_result"
                       setOpen={setOpenTR}
                       open={openTR}
@@ -299,13 +323,13 @@ export default function PatientForm({onSubmit, initialValues}) {
                   <>
                     <AppRadioButton
                       labelStyle={{textTransform: 'none'}}
-                      label={'Type of Patient'}
+                      label={i18n.t('addPatient.typeOfPatient')}
                       radio_props={patientTypeOptions}
                       name="patient_type"
                     />
                     <AppDatePicker
                       modal
-                      label="Date of Diagnosis"
+                      label={i18n.t('addPatient.dateOfDiagnosis')}
                       name="date_of_diagnosis"
                       setOpen={setOpenD}
                       open={openD}
@@ -324,7 +348,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                     />
                     <AppDatePicker
                       modal
-                      label="Date of Treatment Initiation"
+                      label={i18n.t('addPatient.dateOfTreatmentInitiation')}
                       setOpen={setOpenT}
                       open={openT}
                       minimumDate={
@@ -349,29 +373,29 @@ export default function PatientForm({onSubmit, initialValues}) {
                     />
 
                     <AppRadioButton
-                      label={'Progress Tracker Received'}
+                      label={i18n.t('addPatient.progressTrackerReceived')}
                       radio_props={trackerOptions}
                       name="tracker_recieved"
                     />
                     {values.tracker_recieved === 0 && (
                       <>
                         <AppRadioButton
-                          label={'Filled in Week 1'}
+                          label={i18n.t('addPatient.filledInWeek1')}
                           radio_props={trackerWeekOptions}
                           name="t_week1"
                         />
                         <AppRadioButton
-                          label={'Filled in Week 2'}
+                          label={i18n.t('addPatient.filledInWeek2')}
                           radio_props={trackerWeekOptions}
                           name="t_week2"
                         />
                         <AppRadioButton
-                          label={'Filled in Week 3'}
+                          label={i18n.t('addPatient.filledInWeek3')}
                           radio_props={trackerWeekOptions}
                           name="t_week3"
                         />
                         <AppRadioButton
-                          label={'Filled in Week 4'}
+                          label={i18n.t('addPatient.filledInWeek4')}
                           radio_props={trackerWeekOptions}
                           name="t_week4"
                         />
@@ -380,14 +404,14 @@ export default function PatientForm({onSubmit, initialValues}) {
                   </>
                 )}
                 <AppRadioButton
-                  label={'Gender'}
+                  label={i18n.t('addPatient.gender')}
                   isHorizontal={false}
                   radio_props={genderOptions}
                   name="gender"
                 />
                 <AppFormField
                   name="address"
-                  label="Address"
+                  label={i18n.t('addPatient.address')}
                   placeholder="House Number,Street,Area"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -395,12 +419,12 @@ export default function PatientForm({onSubmit, initialValues}) {
                 {(values.category === 1 || values.sample_test_result === 0) && (
                   <>
                     <AppRadioButton
-                      label={'Availed Nikshay Poshan Yojana ?'}
+                      label={i18n.t('addPatient.nikshay')}
                       radio_props={npyOptions}
                       name="npy_availed"
                     />
                     <AppRadioButton
-                      label={'Has the patient completed their treatment ?'}
+                      label={i18n.t('addPatient.treatmentCompleted')}
                       radio_props={npyOptions}
                       name="completed_diagnosis"
                     />
@@ -411,13 +435,13 @@ export default function PatientForm({onSubmit, initialValues}) {
               <View style={styles.inputContainer}>
                 <AppFormField
                   name="c_name"
-                  label="Caregiver Name"
+                  label={i18n.t('addPatient.caregiverName')}
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="c_age"
-                  label="age"
+                  label={i18n.t('addPatient.age')}
                   keyboardType={'numeric'}
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -425,7 +449,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                 <AppFormField
                   name="c_phone"
                   placeholder="9876543210"
-                  label="Phone Number"
+                  label={i18n.t('addPatient.patientPH1')}
                   maxLength={10}
                   keyboardType={'numeric'}
                   autoCapitalize="none"
@@ -434,7 +458,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                 <AppFormField
                   name="c_second_phone"
                   placeholder="9876543210"
-                  label="Second Phone Number"
+                  label={i18n.t('addPatient.patientPH2')}
                   maxLength={10}
                   keyboardType={'numeric'}
                   autoCapitalize="none"
@@ -442,23 +466,147 @@ export default function PatientForm({onSubmit, initialValues}) {
                 />
                 <AppRadioButton
                   isHorizontal={false}
-                  label={'TB Caregiver category'}
+                  label={i18n.t('addPatient.caregiverCategory')}
                   radio_props={caregiverOptions}
                   name="c_category"
                 />
 
                 <AppRadioButton
-                  label={'Gender'}
+                  label={i18n.t('addPatient.gender')}
                   isHorizontal={false}
                   radio_props={genderOptions}
                   name="c_gender"
                 />
-
                 <AppRadioButton
                   isHorizontal={false}
-                  label={'Relation to Patient'}
+                  label={i18n.t('addPatient.relation')}
                   radio_props={relationOptions}
                   name="c_relation"
+                />
+              </View>
+
+              {values.addSecondCaregiver ? (
+                <>
+                  <AppText style={styles.text}>Caregiver information 2</AppText>
+
+                  <View style={styles.inputContainer}>
+                    <AppFormField
+                      name="c_name_2"
+                      label={i18n.t('addPatient.caregiverName')}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name="c_age_2"
+                      label={i18n.t('addPatient.age')}
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name="c_phone_2"
+                      placeholder="9876543210"
+                      label={i18n.t('addPatient.patientPH1')}
+                      maxLength={10}
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name="c_second_phone_2"
+                      placeholder="9876543210"
+                      label={i18n.t('addPatient.patientPH2')}
+                      maxLength={10}
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppRadioButton
+                      isHorizontal={false}
+                      label={i18n.t('addPatient.caregiverCategory')}
+                      radio_props={caregiverOptions}
+                      name="c_category_2"
+                    />
+
+                    <AppRadioButton
+                      label={i18n.t('addPatient.gender')}
+                      isHorizontal={false}
+                      radio_props={genderOptions}
+                      name="c_gender_2"
+                    />
+                    <AppRadioButton
+                      isHorizontal={false}
+                      label={i18n.t('addPatient.relation')}
+                      radio_props={relationOptions}
+                      name="c_relation_2"
+                    />
+                  </View>
+                </>
+              ) : null}
+              {values.addThirdCaregiver ? (
+                <>
+                  <AppText style={styles.text}>Caregiver information 3</AppText>
+
+                  <View style={styles.inputContainer}>
+                    <AppFormField
+                      name="c_name_3"
+                      label={i18n.t('addPatient.caregiverName')}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name={i18n.t('addPatient.age')}
+                      label="age"
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name="c_phone_3"
+                      placeholder="9876543210"
+                      label={i18n.t('addPatient.patientPH1')}
+                      maxLength={10}
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppFormField
+                      name="c_second_phone_3"
+                      placeholder="9876543210"
+                      label={i18n.t('addPatient.patientPH2')}
+                      maxLength={10}
+                      keyboardType={'numeric'}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <AppRadioButton
+                      isHorizontal={false}
+                      label={i18n.t('addPatient.caregiverCategory')}
+                      radio_props={caregiverOptions}
+                      name="c_category_3"
+                    />
+
+                    <AppRadioButton
+                      label={i18n.t('addPatient.gender')}
+                      isHorizontal={false}
+                      radio_props={genderOptions}
+                      name="c_gender_3"
+                    />
+                    <AppRadioButton
+                      isHorizontal={false}
+                      label={i18n.t('addPatient.relation')}
+                      radio_props={relationOptions}
+                      name="c_relation_3"
+                    />
+                  </View>
+                </>
+              ) : null}
+              <View style={styles.inputContainer}>
+                <AppFormField
+                  name="notes"
+                  label={i18n.t('addPatient.notes')}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                 />
               </View>
               {initialValues && values.category === 1 && (
@@ -473,7 +621,7 @@ export default function PatientForm({onSubmit, initialValues}) {
                       </View>
                     ))}
                   <AppButton
-                    title="Add New Session"
+                    title={i18n.t('addPatient.addnewSession')}
                     bg={Colors.appColor}
                     style={styles.addSessionButton}
                     onPress={() => addNewSession(values, setFieldValue)}
@@ -481,11 +629,79 @@ export default function PatientForm({onSubmit, initialValues}) {
                 </View>
               )}
 
+              {!values.addSecondCaregiver && (
+                <View style={styles.AddSessionContainer}>
+                  <AppButton
+                    title="Add Second Caregiver"
+                    bg="#203468"
+                    style={{color: 'white'}}
+                    onPress={() => setFieldValue('addSecondCaregiver', true)}
+                  />
+                </View>
+              )}
+              {values.addSecondCaregiver && !values.addThirdCaregiver ? (
+                <View style={styles.AddSessionContainer}>
+                  <AppButton
+                    title="Add Third Caregiver"
+                    bg="#203468"
+                    style={{color: 'white'}}
+                    onPress={() => setFieldValue('addThirdCaregiver', true)}
+                  />
+                </View>
+              ) : null}
+
               <SubmitButton
                 disabled={isSubmitting}
                 bg={Colors.appColor}
                 textColor={Colors.white}
               />
+              {initialValues && (
+                <>
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      setModalVisible(!modalVisible);
+                    }}>
+                    <View style={styles.centeredView}>
+                      <View style={styles.modalView}>
+                        <Text style={styles.modalText}>
+                          {i18n.t('addPatient.deleteConfirm')}
+                        </Text>
+                        <View style={styles.buttonContainer}>
+                          <Button
+                            style={styles.button}
+                            title="Cancel"
+                            onPress={() => setModalVisible(!modalVisible)}
+                          />
+                          <Button
+                            style={styles.button}
+                            title="Confirm"
+                            onPress={() => {
+                              firestore()
+                                .collection('Patients')
+                                .doc(id)
+                                .delete();
+                              navigation.pop();
+                            }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <View style={styles.DeleteButtonContainer}>
+                    <AppButton
+                      title={i18n.t('addPatient.deleteSession')}
+                      bg={Colors.appColor}
+                      style={styles.addSessionButton}
+                      onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
             </>
           )}
         </Formik>
@@ -499,20 +715,22 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 60,
   },
+  DeleteButtonContainer: {
+    marginTop: 60,
+  },
   addSessionButton: {
     color: Colors.white,
+  },
+  buttonContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
   },
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
     padding: 30,
   },
-  text: {
-    textTransform: 'uppercase',
-    fontFamily: 'Assistant-SemiBold',
-    fontSize: 24,
-    marginBottom: 20,
-  },
+
   input: {
     borderColor: Colors.containerBorder,
   },
@@ -523,5 +741,34 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 30,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    padding: 45,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    textAlign: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  text: {
+    textTransform: 'uppercase',
+    fontFamily: 'Assistant-SemiBold',
+    fontSize: 24,
+    marginBottom: 20,
   },
 });

@@ -6,8 +6,10 @@ import {AppButton, AppText} from '../Components';
 import {AppContext} from '../Components/AppContext';
 import {axiosApi, fetchClient} from '../Services/api/axiosApi';
 import {Colors} from '../Theme';
+import {useTranslation} from 'react-i18next';
 
 export default function ProfileScreen({navigation}) {
+  const {i18n} = useTranslation();
   const {userData, setUserData} = useContext(AppContext);
   const [token, setToken] = useState(null);
   const getData = async isMounted => {
@@ -46,44 +48,48 @@ export default function ProfileScreen({navigation}) {
   }, [token, setUserData, userData]);
   return (
     <View style={styles.container}>
-      <AppText style={styles.header}>Facility Profile </AppText>
+      <AppText style={styles.header}>{i18n.t('profile.heading')}</AppText>
       {!userData ? (
         <ActivityIndicator />
       ) : (
         <>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>Name :</AppText>
+            <AppText style={styles.label}>{i18n.t('profile.name')} :</AppText>
             <AppText style={styles.field}>{userData.name}</AppText>
           </View>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>Phone :</AppText>
+            <AppText style={styles.label}>{i18n.t('profile.phone')} :</AppText>
             <AppText style={styles.field}>{userData.mobile_number}</AppText>
           </View>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>Health and Wellness Center :</AppText>
+            <AppText style={styles.label}>{i18n.t('profile.hwc')} :</AppText>
             <AppText style={styles.field}>{userData.facility_name}</AppText>
           </View>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>Location :</AppText>
+            <AppText style={styles.label}>
+              {i18n.t('profile.location')} :
+            </AppText>
             <AppText style={styles.field}>
               {userData.state ? userData.state.name : ''}
             </AppText>
           </View>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>District :</AppText>
+            <AppText style={styles.label}>
+              {i18n.t('profile.district')} :
+            </AppText>
             <AppText style={styles.field}>
               {userData.district ? userData.district.name : ''}
             </AppText>
           </View>
           <View style={styles.fieldContainer}>
-            <AppText style={styles.label}>Block :</AppText>
+            <AppText style={styles.label}>{i18n.t('profile.block')} :</AppText>
             <AppText style={styles.field}>
               {userData.block ? userData.block.name : ''}
             </AppText>
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              title={'Edit Profile'}
+              title={i18n.t('profile.button')}
               bg={Colors.secondaryColor}
               style={styles.button}
               onPress={() =>

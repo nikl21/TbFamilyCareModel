@@ -13,13 +13,18 @@ import routes from './routes';
 import CustomDrawerContent from '../Components/DrawerContent';
 import ProfileNavigator from './ProfileNavigator';
 import AuthNavigator from './AuthNavigator';
+import i18n from '../Translations';
+import {useTranslation} from 'react-i18next';
+
 const Drawer = createDrawerNavigator();
 
 const AppNavigator = () => {
+  const {i18n} = useTranslation();
+
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}
-      initialRouteName="Home"
+      initialRouteName={i18n.t('menu.home')}
       screen={HomeScreen}
       screenOptions={({navigation}) => ({
         headerTitleAlign: 'center',
@@ -58,7 +63,7 @@ const AppNavigator = () => {
         drawerPosition: 'right',
       })}>
       <Drawer.Screen
-        name="Home"
+        name={i18n.t('menu.home')}
         component={HomeScreen}
         options={({navigation}) => ({
           headerStyle: {
@@ -86,7 +91,7 @@ const AppNavigator = () => {
         })}
       />
       <Drawer.Screen
-        name="Profile"
+        name={i18n.t('menu.profile')}
         component={ProfileNavigator}
         options={({route, navigation}) => ({
           headerTitle: getHeaderTitle(route),
@@ -118,9 +123,12 @@ const AppNavigator = () => {
           },
         })}
       />
-      <Drawer.Screen name="Add Patient" component={AddPatientScreen} />
       <Drawer.Screen
-        name="Previous Patients"
+        name={i18n.t('menu.add_patient')}
+        component={AddPatientScreen}
+      />
+      <Drawer.Screen
+        name={i18n.t('menu.previous_patient')}
         component={SessionNavigator}
         options={({route, navigation}) => ({
           headerTitle: getHeaderTitle(route),
@@ -157,7 +165,7 @@ function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
   // This can happen during if there hasn't been any navigation inside the screen
   // In our case, it's "Feed" as that's the first screen inside the navigator
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Profile';
+  const routeName = getFocusedRouteNameFromRoute(route) ?? i18n.t('menu.home');
 
   switch (routeName) {
     case 'Sessions':

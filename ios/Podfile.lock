@@ -364,6 +364,14 @@ PODS:
   - Firebase/Firestore (8.10.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.10.0)
+  - Firebase/InAppMessaging (8.10.0):
+    - Firebase/CoreOnly
+    - FirebaseInAppMessaging (~> 8.10.0-beta)
+  - Firebase/Messaging (8.10.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 8.10.0)
+  - FirebaseABTesting (8.15.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseAuth (8.10.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.6)
@@ -390,6 +398,26 @@ PODS:
     - FirebaseCore (~> 8.0)
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
+    - nanopb (~> 2.30908.0)
+  - FirebaseInAppMessaging (8.10.0-beta):
+    - FirebaseABTesting (~> 8.0)
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.6)
+    - nanopb (~> 2.30908.0)
+  - FirebaseInstallations (8.10.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/UserDefaults (~> 7.6)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseMessaging (8.10.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.6)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/Reachability (~> 7.6)
+    - GoogleUtilities/UserDefaults (~> 7.6)
     - nanopb (~> 2.30908.0)
   - Flipper (0.87.0):
     - Flipper-Folly (~> 2.5)
@@ -470,6 +498,8 @@ PODS:
     - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.6.0)"
   - GoogleUtilities/Reachability (7.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.6.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.28.2)":
     - "gRPC-C++/Implementation (= 1.28.2)"
@@ -793,9 +823,17 @@ PODS:
     - Firebase/Firestore (= 8.10.0)
     - React-Core
     - RNFBApp
+  - RNFBInAppMessaging (14.10.1):
+    - Firebase/InAppMessaging (= 8.10.0)
+    - React-Core
+    - RNFBApp
+  - RNFBMessaging (14.10.1):
+    - Firebase/Messaging (= 8.10.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (2.1.0):
     - React-Core
-  - RNReanimated (2.3.1):
+  - RNReanimated (2.4.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -894,6 +932,8 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - "RNFBInAppMessaging (from `../node_modules/@react-native-firebase/in-app-messaging`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -907,10 +947,14 @@ SPEC REPOS:
     - BoringSSL-GRPC
     - CocoaAsyncSocket
     - Firebase
+    - FirebaseABTesting
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
+    - FirebaseInAppMessaging
+    - FirebaseInstallations
+    - FirebaseMessaging
     - Flipper
     - Flipper-Boost-iOSX
     - Flipper-DoubleConversion
@@ -1010,6 +1054,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNFBInAppMessaging:
+    :path: "../node_modules/@react-native-firebase/in-app-messaging"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -1031,10 +1079,14 @@ SPEC CHECKSUMS:
   FBLazyVector: de148e8310b8b878db304ceea2fec13f2c02e3a0
   FBReactNativeSpec: 6192956c9e346013d5f1809ba049af720b11c6a4
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
+  FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAuth: 59a2d2b933b5b79e18fb1e6ad230c6abdaa73d26
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
   FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
   FirebaseFirestore: 0e7321a508cc9de54316ec45400caba6b5719beb
+  FirebaseInAppMessaging: 4cc32b975626b0905f77ed7cb3ebd57612ac5d5c
+  FirebaseInstallations: 830327b45345ffc859eaa9c17bcd5ae893fd5425
+  FirebaseMessaging: b0aeba17332ee1ee610662b4d1e02a86db82f08f
   Flipper: 1bd2db48dcc31e4b167b9a33ec1df01c2ded4893
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
   Flipper-DoubleConversion: 57ffbe81ef95306cc9e69c4aa3aeeeeb58a6a28c
@@ -1089,13 +1141,15 @@ SPEC CHECKSUMS:
   RNFBApp: e884e9a2dcc5edfa73e2651ef6638df5e0672f89
   RNFBAuth: e2ba12680f849537c643e049df5f0d0d4f1b0ee1
   RNFBFirestore: 335dcbdb91786a892dd76831373f9794ac947e3b
+  RNFBInAppMessaging: 18cf247967a850138814059dfaf6c6408d8b7686
+  RNFBMessaging: 239bddbfd118b3555c89955b1ba18b97a003d9f6
   RNGestureHandler: e5c7cab5f214503dcefd6b2b0cefb050e1f51c4a
-  RNReanimated: da3860204e5660c0dd66739936732197d359d753
+  RNReanimated: e8afbe2a9e08e9e778ea72ddb1a8533445812621
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 2de7fc1c4338c8834fb99123ba6f0b6982757456
+PODFILE CHECKSUM: 66ebbea538a142b8136ca7074987b03ce1ccee76
 
 COCOAPODS: 1.11.0

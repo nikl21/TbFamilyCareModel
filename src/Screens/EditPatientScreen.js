@@ -15,6 +15,8 @@ export default function EditPatientScreen({route, navigation}) {
       <ScrollView ref={scrollRef}>
         <View style={styles.form}>
           <PatientForm
+            navigation={navigation}
+            id={key}
             initialValues={initialValues}
             onSubmit={(values, {resetForm}) => {
               console.log('values', values.date);

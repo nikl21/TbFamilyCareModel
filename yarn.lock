@@ -190,7 +190,7 @@
 
 "@babel/helper-plugin-utils@^7.16.7":
   version "7.16.7"
-  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.16.7.tgz#aa3a8ab4c3cceff8e65eb9e73d87dc4ff320b2f5"
+  resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.16.7.tgz"
   integrity sha512-Qg3Nk7ZxpgMrsox6HreY1ZNKdBq7K72tDSliA6dCl5f007jR4ne8iD5UzuNnCJH2xBf2BEEVGr+/OL6Gdp7RxA==
 
 "@babel/helper-remap-async-to-generator@^7.16.5":
@@ -570,7 +570,7 @@
 
 "@babel/plugin-transform-object-assign@^7.10.4":
   version "7.16.7"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.16.7.tgz#5fe08d63dccfeb6a33aa2638faf98e5c584100f8"
+  resolved "https://registry.npmjs.org/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.16.7.tgz"
   integrity sha512-R8mawvm3x0COTJtveuoqZIjNypn2FjfvXZr4pSQ8VhEFBuQGBz4XhHasZtHXjgXU4XptZ4HtGof3NoYc93ZH9Q==
   dependencies:
     "@babel/helper-plugin-utils" "^7.16.7"
@@ -723,10 +723,17 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.8.4":
-  version "7.16.5"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.16.5.tgz"
-  integrity sha512-TXWihFIS3Pyv5hzR7j6ihmeLkZfrXGxAr5UfSl8CHf+6q/wpiYDkUau0czckpYG8QmnCIuPpdLtuA9VmuGGyMA==
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.14.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.8.4":
+  version "7.17.9"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.17.9.tgz"
+  integrity sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.17.2":
+  version "7.18.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.3.tgz#c7b654b57f6f63cf7f8b418ac9ca04408c4579f4"
+  integrity sha512-38Y8f7YUhce/K7RMwTp7m0uCumpv9hZkitCbBClqQIow1qSbCvGkcegKOXpEWCQLfWmevgRiWokZ1GkpfhbZug==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1068,7 +1075,7 @@
 
 "@react-native-async-storage/async-storage@^1.15.17":
   version "1.15.17"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.17.tgz#0dae263a52e476ffce871086f1fef5b8e44708eb"
+  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.15.17.tgz"
   integrity sha512-NQCFs47aFEch9kya/bqwdpvSdZaVRtzU7YB02L8VrmLSLpKgQH/1VwzFUBPcc1/JI1s3GU4yOLVrEbwxq+Fqcw==
   dependencies:
     merge-options "^3.0.4"
@@ -1236,7 +1243,7 @@
 
 "@react-native-community/netinfo@^7.1.7":
   version "7.1.7"
-  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-7.1.7.tgz#10e96922c90a0ff9755dcfbfc92a9d83ec45cd87"
+  resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-7.1.7.tgz"
   integrity sha512-QCEuvbTAD7vyCsSsgbWedhTfXlClp4TVHVWYYMjnN7nz6xgZbSp+MI3oo7X5C4JlDHpRm/Q+63hsCgAqKt3WVA==
 
 "@react-native-firebase/app@14.1.0":
@@ -1257,6 +1264,16 @@
   version "14.1.0"
   resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-14.1.0.tgz"
   integrity sha512-IMtdKCuAxnuEhIoRT+hLuhc4TZa3/y4ytrn66/glOZY3OyswTUHtGqktn4gTTm3hrAP1KEG9FvBOqIdmNxQHSQ==
+
+"@react-native-firebase/in-app-messaging@^14.10.1":
+  version "14.10.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/in-app-messaging/-/in-app-messaging-14.10.1.tgz#9b4c550e9bfc3fcff8e85599eff401fdac63ab40"
+  integrity sha512-t+V0V6XxKmG7lyvK7dUDozT0ZewuVLXNO4jFPi/a0+Gc/BotXpZHlMgH4gX2CDvuQrLwEKt+vD0Mz4S49Pl8lg==
+
+"@react-native-firebase/messaging@^14.10.1":
+  version "14.10.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-14.10.1.tgz#a3fd507b216d520d529f781c0873da251a2f799a"
+  integrity sha512-Plwsr7/aLinuW8C9sjtW+fnISJMMsXwohhPT9C52yNR33Hi8AORl/CjP0lSDK0ilkruJxPIzblBmzdH2hez3aQ==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -1415,7 +1432,7 @@
 
 "@types/invariant@^2.2.35":
   version "2.2.35"
-  resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.35.tgz#cd3ebf581a6557452735688d8daba6cf0bd5a3be"
+  resolved "https://registry.npmjs.org/@types/invariant/-/invariant-2.2.35.tgz"
   integrity sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
@@ -3457,10 +3474,17 @@ html-encoding-sniffer@^2.0.1:
   dependencies:
     whatwg-encoding "^1.0.5"
 
-html-escaper@^2.0.0:
+html-escaper@^2.0.0, html-escaper@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmjs.org/html-escaper/-/html-escaper-2.0.2.tgz"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
+
+html-parse-stringify@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz"
+  integrity sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==
+  dependencies:
+    void-elements "3.1.0"
 
 http-errors@1.8.1:
   version "1.8.1"
@@ -3494,6 +3518,13 @@ human-signals@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/human-signals/-/human-signals-1.1.1.tgz"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
+
+i18next@^21.8.4:
+  version "21.8.4"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.8.4.tgz#646e23065752036b38d9fda8898c18139b9e8ebe"
+  integrity sha512-b3LQ5n9V1juu8UItb5x1QTI4OTvNqsNs/wetwQlBvfijEqks+N5HKMKSoevf8w0/RGUrDQ7g4cvVzF8WBp9pUw==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -3757,7 +3788,7 @@ is-number@^7.0.0:
 
 is-plain-obj@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
+  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz"
   integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
 
 is-plain-object@^2.0.3, is-plain-object@^2.0.4:
@@ -4672,7 +4703,7 @@ map-visit@^1.0.0:
 
 merge-options@^3.0.4:
   version "3.0.4"
-  resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
+  resolved "https://registry.npmjs.org/merge-options/-/merge-options-3.0.4.tgz"
   integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
   dependencies:
     is-plain-obj "^2.1.0"
@@ -5044,7 +5075,7 @@ mkdirp@^0.5.1:
 
 mockdate@^3.0.2:
   version "3.0.5"
-  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
+  resolved "https://registry.npmjs.org/mockdate/-/mockdate-3.0.5.tgz"
   integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
 
 ms@2.0.0:
@@ -5669,6 +5700,15 @@ react-freeze@^1.0.0:
   resolved "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.0.tgz"
   integrity sha512-yQaiOqDmoKqks56LN9MTgY06O0qQHgV4FUrikH357DydArSZHQhl0BJFqGKIZoTqi8JizF9Dxhuk1FIZD6qCaw==
 
+react-i18next@^11.16.7:
+  version "11.16.7"
+  resolved "https://registry.npmjs.org/react-i18next/-/react-i18next-11.16.7.tgz"
+  integrity sha512-7yotILJLnKfvUfrl/nt9eK9vFpVFjZPLWAwBzWL6XppSZZEvlmlKk0GBGDCAPfLfs8oND7WAbry8wGzdoiW5Nw==
+  dependencies:
+    "@babel/runtime" "^7.14.5"
+    html-escaper "^2.0.2"
+    html-parse-stringify "^3.0.1"
+
 "react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
@@ -5690,7 +5730,7 @@ react-native-codegen@^0.0.7:
 
 react-native-config@^1.4.5:
   version "1.4.5"
-  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
+  resolved "https://registry.npmjs.org/react-native-config/-/react-native-config-1.4.5.tgz"
   integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
 react-native-dash@^0.0.11:
@@ -5737,7 +5777,7 @@ react-native-measureme@0.0.2:
 
 react-native-reanimated@^2.4.1:
   version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.4.1.tgz#4e33876fba525ce60ac13ab3c81fc3a9f8b132fe"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.4.1.tgz"
   integrity sha512-kvf7ylGlwa5hxMQ+wpPFjQrI2c6eexf53/xRo+dvXBNefGmSYaYR5sFtD0XMMzIPQlkCB9tJ0Pu9+2WCQUY7Cg==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.10.4"
@@ -5763,7 +5803,7 @@ react-native-screens@^3.10.1:
 
 react-native-screens@^3.4.0:
   version "3.11.0"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.11.0.tgz#eeece4a1ba10ce1bfe15160f4ae4073cad34535f"
+  resolved "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.11.0.tgz"
   integrity sha512-4ml42gzxqcjIoPr0zNeN9AHNRK06v2VrF5McT+QpU1GXipehycJ1BBWfziMEsMKZiUeVy4TU7qFlHUuys2mlzw==
   dependencies:
     react-freeze "^1.0.0"
@@ -6482,7 +6522,7 @@ strict-uri-encode@^2.0.0:
 
 string-hash-64@^1.0.3:
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/string-hash-64/-/string-hash-64-1.0.3.tgz#0deb56df58678640db5c479ccbbb597aaa0de322"
+  resolved "https://registry.npmjs.org/string-hash-64/-/string-hash-64-1.0.3.tgz"
   integrity sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw==
 
 string-length@^4.0.1:
@@ -6987,6 +7027,11 @@ vlq@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/vlq/-/vlq-1.0.1.tgz"
   integrity sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==
+
+void-elements@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/void-elements/-/void-elements-3.1.0.tgz"
+  integrity sha1-YU9/v42AHwu18GYfWy9XhXUOTwk=
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

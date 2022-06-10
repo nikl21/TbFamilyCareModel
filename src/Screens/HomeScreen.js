@@ -3,8 +3,11 @@ import {View, StyleSheet, Image} from 'react-native';
 import {AppButton, AppText} from '../Components';
 import routes from '../Navigation/routes';
 import {Colors, Images} from '../Theme';
+import {useTranslation} from 'react-i18next';
 
 export default function HomeScreen({navigation}) {
+  const {i18n} = useTranslation();
+
   return (
     <View style={styles.container}>
       <View style={styles.topBanner}>
@@ -15,14 +18,16 @@ export default function HomeScreen({navigation}) {
       <View style={styles.bottomBanner}>
         <View style={styles.bottomContainer}>
           <View style={styles.bottomTextContainer}>
-            <AppText style={styles.bottomText}>Let's get started.</AppText>
+            <AppText style={styles.bottomText}>
+              {i18n.t('home.subtitle1')}
+            </AppText>
             <AppText style={styles.bottomSubText}>
-              What would you like to do today?
+              {i18n.t('home.subtitle2')}
             </AppText>
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              title={'Add patient info'}
+              title={i18n.t('home.buttonTitle')}
               bg={Colors.white}
               onPress={() => navigation.jumpTo(routes.ADD_PATIENT)}
             />
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: 30,
+    // paddingHorizontal: 30,
     paddingVertical: 30,
   },
   bottomSubText: {
@@ -62,7 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    // alignItems: 'center',
+    paddingHorizontal: 30,
   },
   bottomTextContainer: {
     flexDirection: 'column',

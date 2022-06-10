@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -12,10 +12,13 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import AppText from './AppText';
 import routes from '../Navigation/routes';
 import {AppContext} from './AppContext';
+// import i18n from '../Translations';
+import {useTranslation} from 'react-i18next';
 
 export default function CustomDrawerContent(props) {
+  const {i18n} = useTranslation();
   const {isLoggedIn, setLoggedIn, setUserData} = useContext(AppContext);
-
+  const [lan, setLang] = useState(false);
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.container}>
@@ -30,11 +33,39 @@ export default function CustomDrawerContent(props) {
           </TouchableOpacity>
         </View>
         <View style={styles.drawerContent}>
-          <AppText style={styles.drawerHeader}>Hello!</AppText>
+          <AppText style={styles.drawerHeader}>{i18n.t('menu.hello')}</AppText>
         </View>
         <DrawerItemList {...props} />
         <DrawerItem
-          label="Logout"
+          label={i18n.t('menu.language')}
+          style={styles.menu}
+          onPress={() => setLang(lang => !lang)}
+        />
+        {lan && (
+          <>
+            <DrawerItem
+              label={i18n.t('menu.english')}
+              style={styles.submenu}
+              onPress={() => {
+                i18n.changeLanguage('en');
+                setLang(lang => !lang);
+                props.navigation.toggleDrawer();
+              }}
+            />
+            <DrawerItem
+              label={i18n.t('menu.hindi')}
+              style={styles.submenu}
+              onPress={() => {
+                i18n.changeLanguage('hi');
+                setLang(lang => !lang);
+                props.navigation.toggleDrawer();
+              }}
+            />
+          </>
+        )}
+
+        <DrawerItem
+          label={i18n.t('menu.logout')}
           onPress={() => {
             setLoggedIn(!isLoggedIn);
             setUserData(null);
@@ -59,6 +90,14 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: 'Assistant-Bold',
     color: Colors.appColor,
+  },
+  menu: {
+    borderBottomWidth: 1,
+    marginBottom: 20,
+  },
+  submenu: {
+    marginLeft: 40,
+    marginTop: -15,
   },
   iconContainer: {
     height: 60,

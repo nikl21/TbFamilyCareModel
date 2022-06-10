@@ -58,21 +58,22 @@ export default function NewSessionForm({session_number, index}) {
           name={'action'}
         />
       )}
-      {values.new_sessions[index].action === 2 && (
-        <FormInput
-          placeholder=""
-          multiline={true}
-          labelStyle={{textTransform: 'none'}}
-          onChangeText={handleChange(`new_sessions.${index}.other`)}
-          value={values.new_sessions[index].other}
-          label="Other action"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onBlur={() => {
-            setFieldTouched(`new_sessions.${index}.other`);
-          }}
-        />
-      )}
+      {values.new_sessions[index].drugReaction === 0 &&
+        values.new_sessions[index].action === 2 && (
+          <FormInput
+            placeholder=""
+            multiline={true}
+            labelStyle={{textTransform: 'none'}}
+            onChangeText={handleChange(`new_sessions.${index}.other`)}
+            value={values.new_sessions[index].other}
+            label="Other action"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onBlur={() => {
+              setFieldTouched(`new_sessions.${index}.other`);
+            }}
+          />
+        )}
       <AppRadioButton
         label={'Is the patient taking their medication as prescribed?'}
         radio_props={medicationOptions}
@@ -95,6 +96,19 @@ export default function NewSessionForm({session_number, index}) {
           }}
         />
       )}
+      <FormInput
+        placeholder=""
+        multiline={true}
+        labelStyle={{textTransform: 'none'}}
+        onChangeText={handleChange(`new_sessions.${index}.notes`)}
+        value={values.new_sessions[index].notes}
+        label="Notes"
+        autoCapitalize="none"
+        autoCorrect={false}
+        onBlur={() => {
+          setFieldTouched(`new_sessions.${index}.notes`);
+        }}
+      />
     </View>
   );
 }

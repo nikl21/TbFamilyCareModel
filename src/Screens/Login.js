@@ -8,8 +8,11 @@ import {LoginSchema} from '../Services/formData';
 import {axiosApi} from '../Services/api/axiosApi';
 import {AppContext} from '../Components/AppContext';
 import AppStatus from '../Components/forms/AppStatus';
+import {useTranslation} from 'react-i18next';
 
 export default function Login({navigation}) {
+  const {i18n} = useTranslation();
+
   const {isLoggedIn, setLoggedIn} = useContext(AppContext);
 
   const storeData = async (key, value) => {
@@ -51,14 +54,14 @@ export default function Login({navigation}) {
           <View style={styles.inputContainer}>
             <AppFormField
               name="username"
-              placeholder="Username"
+              placeholder={i18n.t('login.username')}
               autoCapitalize="none"
               autoCorrect={false}
               style={styles.input}
             />
             <AppFormField
               name="password"
-              placeholder="Password"
+              placeholder={i18n.t('login.password')}
               autoCapitalize="none"
               autoCorrect={false}
               type="password"
@@ -66,12 +69,14 @@ export default function Login({navigation}) {
             />
             <AppStatus />
             <View style={styles.signUp}>
-              <AppText>Don't have an account?</AppText>
+              <AppText>{i18n.t('login.title1')}</AppText>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('SignUp');
                 }}>
-                <AppText style={styles.signUpButton}>Sign Up</AppText>
+                <AppText style={styles.signUpButton}>
+                  {i18n.t('login.signUp')}
+                </AppText>
               </TouchableOpacity>
             </View>
           </View>
@@ -79,7 +84,7 @@ export default function Login({navigation}) {
         <View style={styles.bottomBanner}>
           <View style={styles.box}>
             <SubmitButton
-              title="LOGIN"
+              title={i18n.t('login.button')}
               bg={Colors.white}
               textColor={Colors.appColor}
             />

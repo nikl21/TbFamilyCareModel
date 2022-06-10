@@ -6,24 +6,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Colors, Images} from './Theme';
 import SplashScreen from 'react-native-splash-screen';
 
-import Login from './Screens/Login';
 import {Layout} from './Theme';
-import HomeScreen from './Screens/HomeScreen';
-import AddPatientScreen from './Screens/AddPatientScreen';
-import SessionsScreen from './Screens/SessionsScreen';
-import SignUp from './Screens/SignUp';
 import navigationTheme from './Navigation/navigationTheme';
 import AppNavigator from './Navigation/AppNavigator';
 import {AppContext} from './Components/AppContext';
 import AuthNavigator from './Navigation/AuthNavigator';
-// import './Translations';
+import './Translations';
 
 const App = () => {
   const [patientData, setPatientData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(null);
   const [stateData, setStateData] = useState(null);
-  const [hideSplash, setHideSplash] = React.useState(false);
+  const [hideSplash, setHideSplash] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {

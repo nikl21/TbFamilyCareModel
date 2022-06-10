@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {View, ScrollView, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import {Colors} from '../Theme';

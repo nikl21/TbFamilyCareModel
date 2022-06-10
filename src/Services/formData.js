@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import i18n from '../Translations';
 
 export const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -66,67 +67,67 @@ export const PatientFormSchema = Yup.object().shape({
 });
 
 export var categoryOptions = [
-  {label: 'Presumptive ', value: 0},
-  {label: 'Confirmed ', value: 1},
+  {label: i18n.t('addPatient.presumptive'), value: 0},
+  {label: i18n.t('addPatient.confirmed'), value: 1},
 ];
 export var caregiverOptions = [
-  {label: 'Presumptive', value: 0},
-  {label: 'Confirmed ', value: 1},
-  {label: 'Negative', value: 2},
+  {label: i18n.t('addPatient.presumptive'), value: 0},
+  {label: i18n.t('addPatient.confirmed'), value: 1},
+  {label: i18n.t('addPatient.negative'), value: 2},
 ];
 export var testOptions = [
-  {label: 'Tested Positive', value: 0},
-  {label: 'Tested Negative', value: 1},
+  {label: i18n.t('addPatient.positive'), value: 0},
+  {label: i18n.t('addPatient.negative'), value: 1},
 ];
 export var genderOptions = [
-  {label: 'male', value: 0},
-  {label: 'female', value: 1},
-  {label: 'transgender', value: 2},
+  {label: i18n.t('addPatient.male'), value: 0},
+  {label: i18n.t('addPatient.female'), value: 1},
+  {label: i18n.t('addPatient.transgender'), value: 2},
 ];
 export var sampleOptions = [
-  {label: 'collected', value: 0},
-  {label: 'not collected', value: 1},
+  {label: i18n.t('addPatient.collected'), value: 0},
+  {label: i18n.t('addPatient.notCollected'), value: 1},
 ];
 export var dmcOptions = [
-  {label: 'sent', value: 0},
-  {label: 'not sent', value: 1},
+  {label: i18n.t('addPatient.sent'), value: 0},
+  {label: i18n.t('addPatient.notSent'), value: 1},
 ];
 export var cupOptions = [
-  {label: 'provided', value: 0},
-  {label: 'not provided', value: 1},
+  {label: i18n.t('addPatient.provided'), value: 0},
+  {label: i18n.t('addPatient.notProvided'), value: 1},
 ];
 export var morningSampleOptions = [
-  {label: 'sample sent', value: 0},
-  {label: 'sample not sent', value: 1},
+  {label: i18n.t('addPatient.morningSampleSent'), value: 0},
+  {label: i18n.t('addPatient.sampleNotSent'), value: 1},
 ];
 
 export var relationOptions = [
-  {label: 'Spouse', value: 0},
-  {label: 'Parent', value: 1},
-  {label: 'Sibling', value: 2},
-  {label: 'Friend', value: 3},
-  {label: 'Other', value: 4},
+  {label: i18n.t('addPatient.spouse'), value: 0},
+  {label: i18n.t('addPatient.parent'), value: 1},
+  {label: i18n.t('addPatient.sibling'), value: 2},
+  {label: i18n.t('addPatient.friend'), value: 3},
+  {label: i18n.t('addPatient.other'), value: 4},
 ];
 export var trackerOptions = [
-  {label: 'Received', value: 0},
-  {label: 'Not Received', value: 1},
+  {label: i18n.t('addPatient.received'), value: 0},
+  {label: i18n.t('addPatient.notReceived'), value: 1},
 ];
 export var trackerWeekOptions = [
-  {label: 'Yes', value: 0},
-  {label: 'No', value: 1},
+  {label: i18n.t('addPatient.yes'), value: 0},
+  {label: i18n.t('addPatient.no'), value: 1},
 ];
 export var npyOptions = [
-  {label: 'Yes', value: 0},
-  {label: 'No', value: 1},
+  {label: i18n.t('addPatient.yes'), value: 0},
+  {label: i18n.t('addPatient.no'), value: 1},
 ];
 export var patientTypeOptions = [
-  {label: 'Drug Sensitive TB', value: 0},
-  {label: 'Drug Resistant TB', value: 1},
+  {label: i18n.t('addPatient.drugSensitive'), value: 0},
+  {label: i18n.t('addPatient.drugResistantTb'), value: 1},
 ];
 
 export var drugReactionOptions = [
-  {label: 'Yes', value: 0},
-  {label: 'No', value: 1},
+  {label: i18n.t('addPatient.yes'), value: 0},
+  {label: i18n.t('addPatient.no'), value: 1},
 ];
 export var actionOptions = [
   {label: 'Counseling', value: 0},

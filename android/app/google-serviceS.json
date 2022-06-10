@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "97217947736-jcv60arh2c42evki2j9pdsaf14beoub4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tbfamilycaremodel",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "97217947736-5jkmrpnci41lra1qjsme17dkt4f842uo.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -18,6 +18,7 @@ target 'TbFamilyCareModel' do
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
+
   target 'TbFamilyCareModelTests' do
     inherit! :complete
     # Pods for testing
